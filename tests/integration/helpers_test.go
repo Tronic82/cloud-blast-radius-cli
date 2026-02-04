@@ -2,6 +2,7 @@ package integration
 
 import (
 	"bytes"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"testing"
@@ -26,6 +27,30 @@ func ensureTerraformInit(t *testing.T, dir string) {
 	stdout, stderr, err := runCommand(dir, "terraform", "init", "-backend=false", "-upgrade")
 	if err != nil {
 		t.Fatalf("terraform init failed in %s: %v\nstdout: %s\nstderr: %s", dir, err, stdout, stderr)
+	}
+}
+
+// setupMockGCPCredentials sets up mock GCP credentials for Terraform to use.
+// This allows terraform plan to run without real credentials.
+func setupMockGCPCredentials(t *testing.T) func() {
+	mockCredsPath, err := filepath.Abs("mock-gcp-credentials.json")
+	if err != nil {
+		t.Fatalf("failed to get mock credentials path: %v", err)
+	}
+
+	// Save original value
+	originalCreds := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
+
+	// Set mock credentials
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", mockCredsPath)
+
+	// Return cleanup function
+	return func() {
+		if originalCreds != "" {
+			os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", originalCreds)
+		} else {
+			os.Unsetenv("GOOGLE_APPLICATION_CREDENTIALS")
+		}
 	}
 }
 

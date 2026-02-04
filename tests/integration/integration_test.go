@@ -53,6 +53,10 @@ func TestIntegration_Examples(t *testing.T) {
 		planDir := filepath.Join(exampleDir, "plan-mode")
 		if _, err := os.Stat(filepath.Join(planDir, "main.tf")); err == nil {
 			t.Run(entry.Name()+"/plan-mode", func(t *testing.T) {
+				// Set up mock GCP credentials for Terraform
+				cleanup := setupMockGCPCredentials(t)
+				defer cleanup()
+
 				// 1. Run terraform init
 				ensureTerraformInit(t, planDir)
 
