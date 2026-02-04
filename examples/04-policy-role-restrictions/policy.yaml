@@ -1,0 +1,35 @@
+# Role Restriction Policy
+cloud_provider: gcp
+
+policies:
+  - name: "Developer Role Restrictions"
+    type: role_restriction
+    role_restriction:
+      selector:
+        principal_pattern: "group:developers@*"
+      allowed_roles:
+        - "roles/viewer"
+        - "roles/bigquery.dataViewer"
+        - "roles/storage.objectViewer"
+      denied_roles:
+        - "roles/owner"
+        - "roles/editor"
+        - "roles/iam.serviceAccountAdmin"
+
+  - name: "Service Account Role Restrictions"
+    type: role_restriction
+    role_restriction:
+      selector:
+        principal_pattern: "serviceAccount:*-sa@*"
+      denied_roles:
+        - "roles/owner"  # Service accounts should never be owners
+
+  - name: "Production Owner Restrictions"
+    type: role_restriction
+    role_restriction:
+      selector:
+        resource_pattern: "prod-*"
+      denied_roles:
+        - "roles/owner"  # No one should be owner on prod resources
+      allowed_principals:
+        - "group:platform-team@example.com"  # Except platform team

@@ -1,0 +1,50 @@
+hierarchical_roles:
+  # BigQuery Roles
+  "roles/bigquery.dataViewer":
+    resource_types: ["google_bigquery_dataset"]
+    access_level: "read"
+  "roles/bigquery.dataEditor":
+    resource_types: ["google_bigquery_dataset"]
+    access_level: "write"
+  "roles/bigquery.dataOwner":
+    resource_types: ["google_bigquery_dataset"]
+    access_level: "admin"
+  "roles/bigquery.admin":
+    resource_types: ["google_bigquery_dataset"]
+    access_level: "admin"
+  
+  # Storage Roles
+  "roles/storage.objectViewer":
+    resource_types: ["google_storage_bucket"]
+    access_level: "read"
+  "roles/storage.objectCreator":
+    resource_types: ["google_storage_bucket"]
+    access_level: "write"
+  "roles/storage.objectAdmin":
+    resource_types: ["google_storage_bucket"]
+    access_level: "admin"
+  "roles/storage.admin":
+    resource_types: ["google_storage_bucket"]
+    access_level: "admin"
+  
+  # IAM Roles (for impersonation)
+  "roles/iam.serviceAccountUser":
+    resource_types: []
+    access_level: "impersonate"
+  "roles/iam.serviceAccountTokenCreator":
+    resource_types: []
+    access_level: "impersonate"
+
+impersonation_roles:
+  - "roles/iam.serviceAccountUser"
+  - "roles/iam.serviceAccountTokenCreator"
+
+impersonation_rules:
+  - source: "serviceAccount"
+    target: "serviceAccount"
+  - source: "user"
+    target: "serviceAccount"
+  - source: "group"
+    target: "serviceAccount"
+  - source: "principalSet"
+    target: "serviceAccount"

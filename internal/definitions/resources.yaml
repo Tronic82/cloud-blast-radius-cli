@@ -1,0 +1,2526 @@
+version: "1.0"
+cloud_provider: gcp
+last_updated: "2026-02-02"
+description: "Google Cloud Platform IAM resource definitions"
+
+definitions:
+  - type: google_access_context_manager_access_policy_iam_binding
+    category: access_context_manager
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_access_context_manager_access_policy_iam_member
+    category: access_context_manager
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_access_context_manager_access_policy_iam_policy
+    category: access_context_manager
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  # - type: google_apigee_environment_iam_binding
+  #   category: apigee
+  #   field_mappings:
+  #     resource_id: "env_id,org_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_apigee_environment_iam_member
+  #   category: apigee
+  #   field_mappings:
+  #     resource_id: "env_id,org_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_apigee_environment_iam_policy
+  #   category: apigee
+  #   field_mappings:
+  #     resource_id: "env_id,org_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_artifact_registry_repository_iam_binding
+    category: artifact_registry
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: ""
+      members: members
+  - type: google_artifact_registry_repository_iam_member
+    category: artifact_registry
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: member
+      members: ""
+  - type: google_artifact_registry_repository_iam_policy
+    category: artifact_registry
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: ""
+      members: ""
+  # - type: google_beyondcorp_security_gateway_application_iam_binding
+  #   category: beyondcorp
+  #   field_mappings:
+  #     resource_id: "application_id,security_gateway_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_beyondcorp_security_gateway_application_iam_member
+  #   category: beyondcorp
+  #   field_mappings:
+  #     resource_id: "application_id,security_gateway_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_beyondcorp_security_gateway_application_iam_policy
+  #   category: beyondcorp
+  #   field_mappings:
+  #     resource_id: "application_id,security_gateway_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_beyondcorp_security_gateway_iam_binding
+    category: beyondcorp
+    field_mappings:
+      resource_id: security_gateway_id
+      role: role
+      member: ""
+      members: members
+  - type: google_beyondcorp_security_gateway_iam_member
+    category: beyondcorp
+    field_mappings:
+      resource_id: security_gateway_id
+      role: role
+      member: member
+      members: ""
+  - type: google_beyondcorp_security_gateway_iam_policy
+    category: beyondcorp
+    field_mappings:
+      resource_id: security_gateway_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_biglake_iceberg_catalog_iam_binding
+    category: biglake
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_biglake_iceberg_catalog_iam_member
+    category: biglake
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_biglake_iceberg_catalog_iam_policy
+    category: biglake
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_bigquery_analytics_hub_data_exchange_iam_binding
+    category: bigquery
+    field_mappings:
+      resource_id: data_exchange_id
+      role: role
+      member: ""
+      members: members
+  - type: google_bigquery_analytics_hub_data_exchange_iam_member
+    category: bigquery
+    field_mappings:
+      resource_id: data_exchange_id
+      role: role
+      member: member
+      members: ""
+  - type: google_bigquery_analytics_hub_data_exchange_iam_policy
+    category: bigquery
+    field_mappings:
+      resource_id: data_exchange_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_bigquery_analytics_hub_listing_iam_binding
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "data_exchange_id,listing_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_bigquery_analytics_hub_listing_iam_member
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "data_exchange_id,listing_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_bigquery_analytics_hub_listing_iam_policy
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "data_exchange_id,listing_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_bigquery_connection_iam_binding
+    category: bigquery
+    field_mappings:
+      resource_id: connection_id
+      role: role
+      member: ""
+      members: members
+  - type: google_bigquery_connection_iam_member
+    category: bigquery
+    field_mappings:
+      resource_id: connection_id
+      role: role
+      member: member
+      members: ""
+  - type: google_bigquery_connection_iam_policy
+    category: bigquery
+    field_mappings:
+      resource_id: connection_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_bigquery_datapolicy_data_policy_iam_binding
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: ""
+      members: members
+  - type: google_bigquery_datapolicy_data_policy_iam_member
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: member
+      members: ""
+  - type: google_bigquery_datapolicy_data_policy_iam_policy
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_bigquery_datapolicyv2_data_policy_iam_binding
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: ""
+      members: members
+  - type: google_bigquery_datapolicyv2_data_policy_iam_member
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: member
+      members: ""
+  - type: google_bigquery_datapolicyv2_data_policy_iam_policy
+    category: bigquery
+    field_mappings:
+      resource_id: data_policy_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_bigquery_dataset_iam_binding
+    category: bigquery
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: ""
+      members: members
+  - type: google_bigquery_dataset_iam_member
+    category: bigquery
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: member
+      members: ""
+  - type: google_bigquery_dataset_iam_policy
+    category: bigquery
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_bigquery_table_iam_binding
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "dataset_id,table_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_bigquery_table_iam_member
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "dataset_id,table_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_bigquery_table_iam_policy
+  #   category: bigquery
+  #   field_mappings:
+  #     resource_id: "dataset_id,table_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_bigtable_instance_iam_binding
+    category: bigtable
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: members
+  - type: google_bigtable_instance_iam_member
+    category: bigtable
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: member
+      members: ""
+  - type: google_bigtable_instance_iam_policy
+    category: bigtable
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: ""
+  # - type: google_bigtable_table_iam_binding
+  #   category: bigtable
+  #   field_mappings:
+  #     resource_id: "instance_name,table"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_bigtable_table_iam_member
+  #   category: bigtable
+  #   field_mappings:
+  #     resource_id: "instance_name,table"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_bigtable_table_iam_policy
+  #   category: bigtable
+  #   field_mappings:
+  #     resource_id: "instance_name,table"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_billing_account_iam_binding
+    category: billing
+    field_mappings:
+      resource_id: billing_account_id
+      role: role
+      member: ""
+      members: members
+  - type: google_billing_account_iam_member
+    category: billing
+    field_mappings:
+      resource_id: billing_account_id
+      role: role
+      member: member
+      members: ""
+  - type: google_billing_account_iam_policy
+    category: billing
+    field_mappings:
+      resource_id: billing_account_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_binary_authorization_attestor_iam_binding
+    category: binary_authorization
+    field_mappings:
+      resource_id: attestor
+      role: role
+      member: ""
+      members: members
+  - type: google_binary_authorization_attestor_iam_member
+    category: binary_authorization
+    field_mappings:
+      resource_id: attestor
+      role: role
+      member: member
+      members: ""
+  - type: google_binary_authorization_attestor_iam_policy
+    category: binary_authorization
+    field_mappings:
+      resource_id: attestor
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloud_run_service_iam_binding
+    category: cloud_run
+    field_mappings:
+      resource_id: service
+      role: role
+      member: ""
+      members: members
+  - type: google_cloud_run_service_iam_member
+    category: cloud_run
+    field_mappings:
+      resource_id: service
+      role: role
+      member: member
+      members: ""
+  - type: google_cloud_run_service_iam_policy
+    category: cloud_run
+    field_mappings:
+      resource_id: service
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloud_run_v2_job_iam_binding
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_cloud_run_v2_job_iam_member
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_cloud_run_v2_job_iam_policy
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloud_run_v2_service_iam_binding
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_cloud_run_v2_service_iam_member
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_cloud_run_v2_service_iam_policy
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloud_run_v2_worker_pool_iam_binding
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_cloud_run_v2_worker_pool_iam_member
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_cloud_run_v2_worker_pool_iam_policy
+    category: cloud_run
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloud_tasks_queue_iam_binding
+    category: cloud_tasks
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_cloud_tasks_queue_iam_member
+    category: cloud_tasks
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_cloud_tasks_queue_iam_policy
+    category: cloud_tasks
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloudbuildv2_connection_iam_binding
+    category: cloudbuildv2
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_cloudbuildv2_connection_iam_member
+    category: cloudbuildv2
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_cloudbuildv2_connection_iam_policy
+    category: cloudbuildv2
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_clouddeploy_custom_target_type_iam_binding
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_clouddeploy_custom_target_type_iam_member
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_clouddeploy_custom_target_type_iam_policy
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_clouddeploy_delivery_pipeline_iam_binding
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_clouddeploy_delivery_pipeline_iam_member
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_clouddeploy_delivery_pipeline_iam_policy
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_clouddeploy_target_iam_binding
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_clouddeploy_target_iam_member
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_clouddeploy_target_iam_policy
+    category: clouddeploy
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloudfunctions2_function_iam_binding
+    category: cloudfunctions2
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: ""
+      members: members
+  - type: google_cloudfunctions2_function_iam_member
+    category: cloudfunctions2
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: member
+      members: ""
+  - type: google_cloudfunctions2_function_iam_policy
+    category: cloudfunctions2
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: ""
+      members: ""
+  - type: google_cloudfunctions_function_iam_binding
+    category: cloudfunctions
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: ""
+      members: members
+  - type: google_cloudfunctions_function_iam_member
+    category: cloudfunctions
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: member
+      members: ""
+  - type: google_cloudfunctions_function_iam_policy
+    category: cloudfunctions
+    field_mappings:
+      resource_id: cloud_function
+      role: role
+      member: ""
+      members: ""
+  - type: google_colab_runtime_template_iam_binding
+    category: colab
+    field_mappings:
+      resource_id: runtime_template
+      role: role
+      member: ""
+      members: members
+  - type: google_colab_runtime_template_iam_member
+    category: colab
+    field_mappings:
+      resource_id: runtime_template
+      role: role
+      member: member
+      members: ""
+  - type: google_colab_runtime_template_iam_policy
+    category: colab
+    field_mappings:
+      resource_id: runtime_template
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_disk_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_disk_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_disk_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_image_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: image
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_image_iam_member
+    category: compute
+    field_mappings:
+      resource_id: image
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_image_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: image
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_instance_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_instance_iam_member
+    category: compute
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_instance_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_instance_template_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_instance_template_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_instance_template_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_instant_snapshot_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_instant_snapshot_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_instant_snapshot_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_region_disk_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_region_disk_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_region_disk_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_snapshot_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_snapshot_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_snapshot_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_storage_pool_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_storage_pool_iam_member
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_storage_pool_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_compute_subnetwork_iam_binding
+    category: compute
+    field_mappings:
+      resource_id: subnetwork
+      role: role
+      member: ""
+      members: members
+  - type: google_compute_subnetwork_iam_member
+    category: compute
+    field_mappings:
+      resource_id: subnetwork
+      role: role
+      member: member
+      members: ""
+  - type: google_compute_subnetwork_iam_policy
+    category: compute
+    field_mappings:
+      resource_id: subnetwork
+      role: role
+      member: ""
+      members: ""
+  - type: google_container_analysis_note_iam_binding
+    category: container
+    field_mappings:
+      resource_id: note
+      role: role
+      member: ""
+      members: members
+  - type: google_container_analysis_note_iam_member
+    category: container
+    field_mappings:
+      resource_id: note
+      role: role
+      member: member
+      members: ""
+  - type: google_container_analysis_note_iam_policy
+    category: container
+    field_mappings:
+      resource_id: note
+      role: role
+      member: ""
+      members: ""
+  - type: google_data_catalog_entry_group_iam_binding
+    category: data
+    field_mappings:
+      resource_id: entry_group
+      role: role
+      member: ""
+      members: members
+  - type: google_data_catalog_entry_group_iam_member
+    category: data
+    field_mappings:
+      resource_id: entry_group
+      role: role
+      member: member
+      members: ""
+  - type: google_data_catalog_entry_group_iam_policy
+    category: data
+    field_mappings:
+      resource_id: entry_group
+      role: role
+      member: ""
+      members: ""
+  - type: google_data_catalog_policy_tag_iam_binding
+    category: data
+    field_mappings:
+      resource_id: policy_tag
+      role: role
+      member: ""
+      members: members
+  - type: google_data_catalog_policy_tag_iam_member
+    category: data
+    field_mappings:
+      resource_id: policy_tag
+      role: role
+      member: member
+      members: ""
+  - type: google_data_catalog_policy_tag_iam_policy
+    category: data
+    field_mappings:
+      resource_id: policy_tag
+      role: role
+      member: ""
+      members: ""
+  - type: google_data_catalog_tag_template_iam_binding
+    category: data
+    field_mappings:
+      resource_id: tag_template
+      role: role
+      member: ""
+      members: members
+  - type: google_data_catalog_tag_template_iam_member
+    category: data
+    field_mappings:
+      resource_id: tag_template
+      role: role
+      member: member
+      members: ""
+  - type: google_data_catalog_tag_template_iam_policy
+    category: data
+    field_mappings:
+      resource_id: tag_template
+      role: role
+      member: ""
+      members: ""
+  - type: google_data_catalog_taxonomy_iam_binding
+    category: data
+    field_mappings:
+      resource_id: taxonomy
+      role: role
+      member: ""
+      members: members
+  - type: google_data_catalog_taxonomy_iam_member
+    category: data
+    field_mappings:
+      resource_id: taxonomy
+      role: role
+      member: member
+      members: ""
+  - type: google_data_catalog_taxonomy_iam_policy
+    category: data
+    field_mappings:
+      resource_id: taxonomy
+      role: role
+      member: ""
+      members: ""
+  - type: google_data_fusion_instance_iam_binding
+    category: data
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_data_fusion_instance_iam_member
+    category: data
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_data_fusion_instance_iam_policy
+    category: data
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataplex_aspect_type_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: aspect_type_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_aspect_type_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: aspect_type_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_aspect_type_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: aspect_type_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_dataplex_asset_iam_binding
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "asset,dataplex_zone,lake"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_dataplex_asset_iam_member
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "asset,dataplex_zone,lake"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_dataplex_asset_iam_policy
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "asset,dataplex_zone,lake"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_dataplex_datascan_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: data_scan_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_datascan_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: data_scan_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_datascan_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: data_scan_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataplex_entry_group_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: entry_group_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_entry_group_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: entry_group_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_entry_group_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: entry_group_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataplex_entry_type_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: entry_type_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_entry_type_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: entry_type_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_entry_type_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: entry_type_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataplex_glossary_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: glossary_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_glossary_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: glossary_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_glossary_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: glossary_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataplex_lake_iam_binding
+    category: dataplex
+    field_mappings:
+      resource_id: lake
+      role: role
+      member: ""
+      members: members
+  - type: google_dataplex_lake_iam_member
+    category: dataplex
+    field_mappings:
+      resource_id: lake
+      role: role
+      member: member
+      members: ""
+  - type: google_dataplex_lake_iam_policy
+    category: dataplex
+    field_mappings:
+      resource_id: lake
+      role: role
+      member: ""
+      members: ""
+  # - type: google_dataplex_task_iam_binding
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "lake,task_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_dataplex_task_iam_member
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "lake,task_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_dataplex_task_iam_policy
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "lake,task_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  # - type: google_dataplex_zone_iam_binding
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "dataplex_zone,lake"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_dataplex_zone_iam_member
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "dataplex_zone,lake"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_dataplex_zone_iam_policy
+  #   category: dataplex
+  #   field_mappings:
+  #     resource_id: "dataplex_zone,lake"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_dataproc_autoscaling_policy_iam_binding
+    category: dataproc
+    field_mappings:
+      resource_id: policy_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataproc_autoscaling_policy_iam_member
+    category: dataproc
+    field_mappings:
+      resource_id: policy_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataproc_autoscaling_policy_iam_policy
+    category: dataproc
+    field_mappings:
+      resource_id: policy_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataproc_cluster_iam_binding
+    category: dataproc
+    field_mappings:
+      resource_id: cluster
+      role: role
+      member: ""
+      members: members
+  - type: google_dataproc_cluster_iam_member
+    category: dataproc
+    field_mappings:
+      resource_id: cluster
+      role: role
+      member: member
+      members: ""
+  - type: google_dataproc_cluster_iam_policy
+    category: dataproc
+    field_mappings:
+      resource_id: cluster
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataproc_job_iam_binding
+    category: dataproc
+    field_mappings:
+      resource_id: job_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataproc_job_iam_member
+    category: dataproc
+    field_mappings:
+      resource_id: job_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataproc_job_iam_policy
+    category: dataproc
+    field_mappings:
+      resource_id: job_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_dataproc_metastore_database_iam_binding
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database,service_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_dataproc_metastore_database_iam_member
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database,service_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_dataproc_metastore_database_iam_policy
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database,service_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_dataproc_metastore_federation_iam_binding
+    category: dataproc
+    field_mappings:
+      resource_id: federation_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataproc_metastore_federation_iam_member
+    category: dataproc
+    field_mappings:
+      resource_id: federation_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataproc_metastore_federation_iam_policy
+    category: dataproc
+    field_mappings:
+      resource_id: federation_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_dataproc_metastore_service_iam_binding
+    category: dataproc
+    field_mappings:
+      resource_id: service_id
+      role: role
+      member: ""
+      members: members
+  - type: google_dataproc_metastore_service_iam_member
+    category: dataproc
+    field_mappings:
+      resource_id: service_id
+      role: role
+      member: member
+      members: ""
+  - type: google_dataproc_metastore_service_iam_policy
+    category: dataproc
+    field_mappings:
+      resource_id: service_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_dataproc_metastore_table_iam_binding
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database_id,service_id,table"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_dataproc_metastore_table_iam_member
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database_id,service_id,table"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_dataproc_metastore_table_iam_policy
+  #   category: dataproc
+  #   field_mappings:
+  #     resource_id: "database_id,service_id,table"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_dns_managed_zone_iam_binding
+    category: dns
+    field_mappings:
+      resource_id: managed_zone
+      role: role
+      member: ""
+      members: members
+  - type: google_dns_managed_zone_iam_member
+    category: dns
+    field_mappings:
+      resource_id: managed_zone
+      role: role
+      member: member
+      members: ""
+  - type: google_dns_managed_zone_iam_policy
+    category: dns
+    field_mappings:
+      resource_id: managed_zone
+      role: role
+      member: ""
+      members: ""
+  # - type: google_endpoints_service_consumers_iam_binding
+  #   category: endpoints
+  #   field_mappings:
+  #     resource_id: "consumer_project,service_name"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_endpoints_service_consumers_iam_member
+  #   category: endpoints
+  #   field_mappings:
+  #     resource_id: "consumer_project,service_name"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_endpoints_service_consumers_iam_policy
+  #   category: endpoints
+  #   field_mappings:
+  #     resource_id: "consumer_project,service_name"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_endpoints_service_iam_binding
+    category: endpoints
+    field_mappings:
+      resource_id: service_name
+      role: role
+      member: ""
+      members: members
+  - type: google_endpoints_service_iam_member
+    category: endpoints
+    field_mappings:
+      resource_id: service_name
+      role: role
+      member: member
+      members: ""
+  - type: google_endpoints_service_iam_policy
+    category: endpoints
+    field_mappings:
+      resource_id: service_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_folder_iam_binding
+    category: folder
+    field_mappings:
+      resource_id: folder
+      role: role
+      member: ""
+      members: members
+  - type: google_folder_iam_member
+    category: folder
+    field_mappings:
+      resource_id: folder
+      role: role
+      member: member
+      members: ""
+  - type: google_folder_iam_policy
+    category: folder
+    field_mappings:
+      resource_id: folder
+      role: role
+      member: ""
+      members: ""
+  # - type: google_gemini_repository_group_iam_binding
+  #   category: gemini
+  #   field_mappings:
+  #     resource_id: "code_repository_index,repository_group_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_gemini_repository_group_iam_member
+  #   category: gemini
+  #   field_mappings:
+  #     resource_id: "code_repository_index,repository_group_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_gemini_repository_group_iam_policy
+  #   category: gemini
+  #   field_mappings:
+  #     resource_id: "code_repository_index,repository_group_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_gke_backup_backup_plan_iam_binding
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_gke_backup_backup_plan_iam_member
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_gke_backup_backup_plan_iam_policy
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_gke_backup_restore_plan_iam_binding
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_gke_backup_restore_plan_iam_member
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_gke_backup_restore_plan_iam_policy
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_gke_hub_feature_iam_binding
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_gke_hub_feature_iam_member
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_gke_hub_feature_iam_policy
+    category: gke
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_gke_hub_membership_iam_binding
+    category: gke
+    field_mappings:
+      resource_id: membership_id
+      role: role
+      member: ""
+      members: members
+  - type: google_gke_hub_membership_iam_member
+    category: gke
+    field_mappings:
+      resource_id: membership_id
+      role: role
+      member: member
+      members: ""
+  - type: google_gke_hub_membership_iam_policy
+    category: gke
+    field_mappings:
+      resource_id: membership_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_gke_hub_scope_iam_binding
+    category: gke
+    field_mappings:
+      resource_id: scope_id
+      role: role
+      member: ""
+      members: members
+  - type: google_gke_hub_scope_iam_member
+    category: gke
+    field_mappings:
+      resource_id: scope_id
+      role: role
+      member: member
+      members: ""
+  - type: google_gke_hub_scope_iam_policy
+    category: gke
+    field_mappings:
+      resource_id: scope_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_healthcare_consent_store_iam_binding
+  #   category: healthcare
+  #   field_mappings:
+  #     resource_id: "consent_store_id,dataset"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_healthcare_consent_store_iam_member
+  #   category: healthcare
+  #   field_mappings:
+  #     resource_id: "consent_store_id,dataset"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_healthcare_consent_store_iam_policy
+  #   category: healthcare
+  #   field_mappings:
+  #     resource_id: "consent_store_id,dataset"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_healthcare_dataset_iam_binding
+    category: healthcare
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: ""
+      members: members
+  - type: google_healthcare_dataset_iam_member
+    category: healthcare
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: member
+      members: ""
+  - type: google_healthcare_dataset_iam_policy
+    category: healthcare
+    field_mappings:
+      resource_id: dataset_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_healthcare_dicom_store_iam_binding
+    category: healthcare
+    field_mappings:
+      resource_id: dicom_store_id
+      role: role
+      member: ""
+      members: members
+  - type: google_healthcare_dicom_store_iam_member
+    category: healthcare
+    field_mappings:
+      resource_id: dicom_store_id
+      role: role
+      member: member
+      members: ""
+  - type: google_healthcare_dicom_store_iam_policy
+    category: healthcare
+    field_mappings:
+      resource_id: dicom_store_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_healthcare_fhir_store_iam_binding
+    category: healthcare
+    field_mappings:
+      resource_id: fhir_store_id
+      role: role
+      member: ""
+      members: members
+  - type: google_healthcare_fhir_store_iam_member
+    category: healthcare
+    field_mappings:
+      resource_id: fhir_store_id
+      role: role
+      member: member
+      members: ""
+  - type: google_healthcare_fhir_store_iam_policy
+    category: healthcare
+    field_mappings:
+      resource_id: fhir_store_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_healthcare_hl7_v2_store_iam_binding
+    category: healthcare
+    field_mappings:
+      resource_id: hl7_v2_store_id
+      role: role
+      member: ""
+      members: members
+  - type: google_healthcare_hl7_v2_store_iam_member
+    category: healthcare
+    field_mappings:
+      resource_id: hl7_v2_store_id
+      role: role
+      member: member
+      members: ""
+  - type: google_healthcare_hl7_v2_store_iam_policy
+    category: healthcare
+    field_mappings:
+      resource_id: hl7_v2_store_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_iam_workforce_pool_iam_binding
+    category: iam
+    field_mappings:
+      resource_id: workforce_pool_id
+      role: role
+      member: ""
+      members: members
+  - type: google_iam_workforce_pool_iam_member
+    category: iam
+    field_mappings:
+      resource_id: workforce_pool_id
+      role: role
+      member: member
+      members: ""
+  - type: google_iam_workforce_pool_iam_policy
+    category: iam
+    field_mappings:
+      resource_id: workforce_pool_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_iap_app_engine_service_iam_binding
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_iap_app_engine_service_iam_member
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_iap_app_engine_service_iam_policy
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  # - type: google_iap_app_engine_version_iam_binding
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service,version_id"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_iap_app_engine_version_iam_member
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service,version_id"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_iap_app_engine_version_iam_policy
+  #   category: iap
+  #   field_mappings:
+  #     resource_id: "app_id,service,version_id"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_iap_tunnel_dest_group_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: dest_group
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_tunnel_dest_group_iam_member
+    category: iap
+    field_mappings:
+      resource_id: dest_group
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_tunnel_dest_group_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: dest_group
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_tunnel_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_tunnel_iam_member
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_tunnel_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_tunnel_instance_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_tunnel_instance_iam_member
+    category: iap
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_tunnel_instance_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_backend_service_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: web_backend_service
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_backend_service_iam_member
+    category: iap
+    field_mappings:
+      resource_id: web_backend_service
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_backend_service_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: web_backend_service
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_cloud_run_service_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: cloud_run_service_name
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_cloud_run_service_iam_member
+    category: iap
+    field_mappings:
+      resource_id: cloud_run_service_name
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_cloud_run_service_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: cloud_run_service_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_forwarding_rule_service_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_service_name
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_forwarding_rule_service_iam_member
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_service_name
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_forwarding_rule_service_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_service_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_iam_member
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_region_backend_service_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: web_region_backend_service
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_region_backend_service_iam_member
+    category: iap
+    field_mappings:
+      resource_id: web_region_backend_service
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_region_backend_service_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: web_region_backend_service
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_region_forwarding_rule_service_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_region_service_name
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_region_forwarding_rule_service_iam_member
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_region_service_name
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_region_forwarding_rule_service_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: forwarding_rule_region_service_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_type_app_engine_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: app_id
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_type_app_engine_iam_member
+    category: iap
+    field_mappings:
+      resource_id: app_id
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_type_app_engine_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: app_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_iap_web_type_compute_iam_binding
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: members
+  - type: google_iap_web_type_compute_iam_member
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: member
+      members: ""
+  - type: google_iap_web_type_compute_iam_policy
+    category: iap
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: ""
+  - type: google_kms_crypto_key_iam_binding
+    category: kms
+    field_mappings:
+      resource_id: crypto_key_id
+      role: role
+      member: ""
+      members: members
+  - type: google_kms_crypto_key_iam_member
+    category: kms
+    field_mappings:
+      resource_id: crypto_key_id
+      role: role
+      member: member
+      members: ""
+  - type: google_kms_crypto_key_iam_policy
+    category: kms
+    field_mappings:
+      resource_id: crypto_key_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_kms_ekm_connection_iam_binding
+    category: kms
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_kms_ekm_connection_iam_member
+    category: kms
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_kms_ekm_connection_iam_policy
+    category: kms
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_kms_key_ring_iam_binding
+    category: kms
+    field_mappings:
+      resource_id: key_ring_id
+      role: role
+      member: ""
+      members: members
+  - type: google_kms_key_ring_iam_member
+    category: kms
+    field_mappings:
+      resource_id: key_ring_id
+      role: role
+      member: member
+      members: ""
+  - type: google_kms_key_ring_iam_policy
+    category: kms
+    field_mappings:
+      resource_id: key_ring_id
+      role: role
+      member: ""
+      members: ""
+  # - type: google_logging_log_view_iam_binding
+  #   category: logging
+  #   field_mappings:
+  #     resource_id: "name,bucket,parent"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_logging_log_view_iam_member
+  #   category: logging
+  #   field_mappings:
+  #     resource_id: "name,bucket,parent"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_logging_log_view_iam_policy
+  #   category: logging
+  #   field_mappings:
+  #     resource_id: "name,bucket,parent"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_network_security_address_group_iam_binding
+    category: network
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_network_security_address_group_iam_member
+    category: network
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_network_security_address_group_iam_policy
+    category: network
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_notebooks_instance_iam_binding
+    category: notebooks
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: ""
+      members: members
+  - type: google_notebooks_instance_iam_member
+    category: notebooks
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: member
+      members: ""
+  - type: google_notebooks_instance_iam_policy
+    category: notebooks
+    field_mappings:
+      resource_id: instance_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_notebooks_runtime_iam_binding
+    category: notebooks
+    field_mappings:
+      resource_id: runtime_name
+      role: role
+      member: ""
+      members: members
+  - type: google_notebooks_runtime_iam_member
+    category: notebooks
+    field_mappings:
+      resource_id: runtime_name
+      role: role
+      member: member
+      members: ""
+  - type: google_notebooks_runtime_iam_policy
+    category: notebooks
+    field_mappings:
+      resource_id: runtime_name
+      role: role
+      member: ""
+      members: ""
+  - type: google_organization_iam_binding
+    category: organization
+    field_mappings:
+      resource_id: org_id
+      role: role
+      member: ""
+      members: members
+  - type: google_organization_iam_member
+    category: organization
+    field_mappings:
+      resource_id: org_id
+      role: role
+      member: member
+      members: ""
+  - type: google_organization_iam_policy
+    category: organization
+    field_mappings:
+      resource_id: org_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_privateca_ca_pool_iam_binding
+    category: privateca
+    field_mappings:
+      resource_id: ca_pool
+      role: role
+      member: ""
+      members: members
+  - type: google_privateca_ca_pool_iam_member
+    category: privateca
+    field_mappings:
+      resource_id: ca_pool
+      role: role
+      member: member
+      members: ""
+  - type: google_privateca_ca_pool_iam_policy
+    category: privateca
+    field_mappings:
+      resource_id: ca_pool
+      role: role
+      member: ""
+      members: ""
+  - type: google_privateca_certificate_template_iam_binding
+    category: privateca
+    field_mappings:
+      resource_id: certificate_template
+      role: role
+      member: ""
+      members: members
+  - type: google_privateca_certificate_template_iam_member
+    category: privateca
+    field_mappings:
+      resource_id: certificate_template
+      role: role
+      member: member
+      members: ""
+  - type: google_privateca_certificate_template_iam_policy
+    category: privateca
+    field_mappings:
+      resource_id: certificate_template
+      role: role
+      member: ""
+      members: ""
+  - type: google_project_iam_binding
+    category: project
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: members
+  - type: google_project_iam_member
+    category: project
+    field_mappings:
+      resource_id: project
+      role: role
+      member: member
+      members: ""
+  - type: google_project_iam_policy
+    category: project
+    field_mappings:
+      resource_id: project
+      role: role
+      member: ""
+      members: ""
+  - type: google_pubsub_schema_iam_binding
+    category: pubsub
+    field_mappings:
+      resource_id: schema
+      role: role
+      member: ""
+      members: members
+  - type: google_pubsub_schema_iam_member
+    category: pubsub
+    field_mappings:
+      resource_id: schema
+      role: role
+      member: member
+      members: ""
+  - type: google_pubsub_schema_iam_policy
+    category: pubsub
+    field_mappings:
+      resource_id: schema
+      role: role
+      member: ""
+      members: ""
+  - type: google_pubsub_subscription_iam_binding
+    category: pubsub
+    field_mappings:
+      resource_id: subscription
+      role: role
+      member: ""
+      members: members
+  - type: google_pubsub_subscription_iam_member
+    category: pubsub
+    field_mappings:
+      resource_id: subscription
+      role: role
+      member: member
+      members: ""
+  - type: google_pubsub_subscription_iam_policy
+    category: pubsub
+    field_mappings:
+      resource_id: subscription
+      role: role
+      member: ""
+      members: ""
+  - type: google_pubsub_topic_iam_binding
+    category: pubsub
+    field_mappings:
+      resource_id: topic
+      role: role
+      member: ""
+      members: members
+  - type: google_pubsub_topic_iam_member
+    category: pubsub
+    field_mappings:
+      resource_id: topic
+      role: role
+      member: member
+      members: ""
+  - type: google_pubsub_topic_iam_policy
+    category: pubsub
+    field_mappings:
+      resource_id: topic
+      role: role
+      member: ""
+      members: ""
+  # - type: google_scc_source_iam_binding
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_scc_source_iam_member
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_scc_source_iam_policy
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  # - type: google_scc_v2_organization_source_iam_binding
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_scc_v2_organization_source_iam_member
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_scc_v2_organization_source_iam_policy
+  #   category: scc
+  #   field_mappings:
+  #     resource_id: "organization,source"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_secret_manager_regional_secret_iam_binding
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: ""
+      members: members
+  - type: google_secret_manager_regional_secret_iam_member
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: member
+      members: ""
+  - type: google_secret_manager_regional_secret_iam_policy
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_secret_manager_secret_iam_binding
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: ""
+      members: members
+  - type: google_secret_manager_secret_iam_member
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: member
+      members: ""
+  - type: google_secret_manager_secret_iam_policy
+    category: secret_manager
+    field_mappings:
+      resource_id: secret_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_secure_source_manager_instance_iam_binding
+    category: secure
+    field_mappings:
+      resource_id: instance_id
+      role: role
+      member: ""
+      members: members
+  - type: google_secure_source_manager_instance_iam_member
+    category: secure
+    field_mappings:
+      resource_id: instance_id
+      role: role
+      member: member
+      members: ""
+  - type: google_secure_source_manager_instance_iam_policy
+    category: secure
+    field_mappings:
+      resource_id: instance_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_secure_source_manager_repository_iam_binding
+    category: secure
+    field_mappings:
+      resource_id: repository_id
+      role: role
+      member: ""
+      members: members
+  - type: google_secure_source_manager_repository_iam_member
+    category: secure
+    field_mappings:
+      resource_id: repository_id
+      role: role
+      member: member
+      members: ""
+  - type: google_secure_source_manager_repository_iam_policy
+    category: secure
+    field_mappings:
+      resource_id: repository_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_service_account_iam_binding
+    category: service
+    field_mappings:
+      resource_id: service_account_id
+      role: role
+      member: ""
+      members: members
+  - type: google_service_account_iam_member
+    category: service
+    field_mappings:
+      resource_id: service_account_id
+      role: role
+      member: member
+      members: ""
+  - type: google_service_account_iam_policy
+    category: service
+    field_mappings:
+      resource_id: service_account_id
+      role: role
+      member: ""
+      members: ""
+  - type: google_service_directory_namespace_iam_binding
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_service_directory_namespace_iam_member
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_service_directory_namespace_iam_policy
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_service_directory_service_iam_binding
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_service_directory_service_iam_member
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_service_directory_service_iam_policy
+    category: service_directory
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
+  - type: google_sourcerepo_repository_iam_binding
+    category: sourcerepo
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: ""
+      members: members
+  - type: google_sourcerepo_repository_iam_member
+    category: sourcerepo
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: member
+      members: ""
+  - type: google_sourcerepo_repository_iam_policy
+    category: sourcerepo
+    field_mappings:
+      resource_id: repository
+      role: role
+      member: ""
+      members: ""
+  # - type: google_spanner_database_iam_binding
+  #   category: spanner
+  #   field_mappings:
+  #     resource_id: "database,instance"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_spanner_database_iam_member
+  #   category: spanner
+  #   field_mappings:
+  #     resource_id: "database,instance"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_spanner_database_iam_policy
+  #   category: spanner
+  #   field_mappings:
+  #     resource_id: "database,instance"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_spanner_instance_iam_binding
+    category: spanner
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: members
+  - type: google_spanner_instance_iam_member
+    category: spanner
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: member
+      members: ""
+  - type: google_spanner_instance_iam_policy
+    category: spanner
+    field_mappings:
+      resource_id: instance
+      role: role
+      member: ""
+      members: ""
+  - type: google_storage_bucket_iam_binding
+    category: storage
+    field_mappings:
+      resource_id: bucket
+      role: role
+      member: ""
+      members: members
+  - type: google_storage_bucket_iam_member
+    category: storage
+    field_mappings:
+      resource_id: bucket
+      role: role
+      member: member
+      members: ""
+  - type: google_storage_bucket_iam_policy
+    category: storage
+    field_mappings:
+      resource_id: bucket
+      role: role
+      member: ""
+      members: ""
+  # - type: google_storage_managed_folder_iam_binding
+  #   category: storage
+  #   field_mappings:
+  #     resource_id: "bucket,managed_folder"
+  #     role: role
+  #     member: ""
+  #     members: members
+  # - type: google_storage_managed_folder_iam_member
+  #   category: storage
+  #   field_mappings:
+  #     resource_id: "bucket,managed_folder"
+  #     role: role
+  #     member: member
+  #     members: ""
+  # - type: google_storage_managed_folder_iam_policy
+  #   category: storage
+  #   field_mappings:
+  #     resource_id: "bucket,managed_folder"
+  #     role: role
+  #     member: ""
+  #     members: ""
+  - type: google_tags_tag_key_iam_binding
+    category: tags
+    field_mappings:
+      resource_id: tag_key
+      role: role
+      member: ""
+      members: members
+  - type: google_tags_tag_key_iam_member
+    category: tags
+    field_mappings:
+      resource_id: tag_key
+      role: role
+      member: member
+      members: ""
+  - type: google_tags_tag_key_iam_policy
+    category: tags
+    field_mappings:
+      resource_id: tag_key
+      role: role
+      member: ""
+      members: ""
+  - type: google_tags_tag_value_iam_binding
+    category: tags
+    field_mappings:
+      resource_id: tag_value
+      role: role
+      member: ""
+      members: members
+  - type: google_tags_tag_value_iam_member
+    category: tags
+    field_mappings:
+      resource_id: tag_value
+      role: role
+      member: member
+      members: ""
+  - type: google_tags_tag_value_iam_policy
+    category: tags
+    field_mappings:
+      resource_id: tag_value
+      role: role
+      member: ""
+      members: ""
+  - type: google_workbench_instance_iam_binding
+    category: workbench
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: members
+  - type: google_workbench_instance_iam_member
+    category: workbench
+    field_mappings:
+      resource_id: name
+      role: role
+      member: member
+      members: ""
+  - type: google_workbench_instance_iam_policy
+    category: workbench
+    field_mappings:
+      resource_id: name
+      role: role
+      member: ""
+      members: ""
