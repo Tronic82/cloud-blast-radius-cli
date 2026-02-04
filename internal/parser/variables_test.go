@@ -14,7 +14,7 @@ func TestLoadVariables(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(tmpDir)
+	defer func() { _ = os.RemoveAll(tmpDir) }()
 
 	// 1. Create variables.tf with defaults
 	varsContent := `

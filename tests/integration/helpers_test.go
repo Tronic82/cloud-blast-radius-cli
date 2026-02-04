@@ -42,14 +42,20 @@ func setupMockGCPCredentials(t *testing.T) func() {
 	originalCreds := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 	// Set mock credentials
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", mockCredsPath)
+	if err := os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", mockCredsPath); err != nil {
+		t.Fatalf("failed to set mock credentials env: %v", err)
+	}
 
 	// Return cleanup function
 	return func() {
 		if originalCreds != "" {
-			os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", originalCreds)
+			if err := os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", originalCreds); err != nil {
+				t.Errorf("failed to restore original credentials env: %v", err)
+			}
 		} else {
-			os.Unsetenv("GOOGLE_APPLICATION_CREDENTIALS")
+			if err := os.Unsetenv("GOOGLE_APPLICATION_CREDENTIALS"); err != nil {
+				t.Errorf("failed to unset mock credentials env: %v", err)
+			}
 		}
 	}
 }

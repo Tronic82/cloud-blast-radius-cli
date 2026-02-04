@@ -75,7 +75,7 @@ func TestIntegration_Examples(t *testing.T) {
 				if err := os.WriteFile(blastJSONFile, []byte(planJSON), 0644); err != nil {
 					t.Fatalf("failed to write blast.json: %v", err)
 				}
-				defer os.Remove(blastJSONFile)
+				defer func() { _ = os.Remove(blastJSONFile) }()
 
 				// 4. Run blast-radius with the plan JSON
 				stdout, stderr, err = runCommand(planDir, binaryPath, "impact", "--plan", "blast.json", "--output", "json")
