@@ -1,0 +1,122 @@
+{
+  "command": "impact",
+  "principals": [
+    {
+      "principal": "serviceAccount:admin-sa@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "production-secrets",
+          "resource_type": "google_storage_bucket_iam_member",
+          "roles": [
+            "roles/storage.admin"
+          ]
+        },
+        {
+          "resource_id": "sensitive-customer-data",
+          "resource_type": "google_bigquery_dataset_iam_member",
+          "roles": [
+            "roles/bigquery.admin"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:deploy-sa@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "projects/my-project/serviceAccounts/admin-sa@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:dev-sa@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "dev-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        },
+        {
+          "resource_id": "projects/my-project/serviceAccounts/prod-sa@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:prod-sa@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "prod-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/owner"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:sa-a@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "projects/my-project/serviceAccounts/sa-b@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:sa-b@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "projects/my-project/serviceAccounts/sa-c@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:sa-c@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "my-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        },
+        {
+          "resource_id": "projects/my-project/serviceAccounts/sa-a@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:alice@example.com",
+      "resources": [
+        {
+          "resource_id": "projects/my-project/serviceAccounts/deploy-sa@project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountUser"
+          ]
+        }
+      ]
+    }
+  ]
+}

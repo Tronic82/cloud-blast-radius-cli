@@ -1,21 +1,8 @@
 {
   "command": "impact",
-  "timestamp": "2026-02-03T11:46:41.4729608Z",
   "principals": [
     {
-      "principal": "group:developers@example.com",
-      "resources": [
-        {
-          "resource_id": "my-production-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/viewer"
-          ]
-        }
-      ]
-    },
-    {
-      "principal": "serviceAccount:backup-sa@my-production-project.iam.gserviceaccount.com",
+      "principal": "serviceAccount:backup-sa@project.iam.gserviceaccount.com",
       "resources": [
         {
           "resource_id": "data-bucket",
@@ -35,13 +22,6 @@
           "roles": [
             "roles/bigquery.dataViewer"
           ]
-        },
-        {
-          "resource_id": "my-production-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/viewer"
-          ]
         }
       ]
     },
@@ -49,7 +29,7 @@
       "principal": "user:bob@example.com",
       "resources": [
         {
-          "resource_id": "projects/my-production-project/serviceAccounts/app-sa@my-production-project.iam.gserviceaccount.com",
+          "resource_id": "projects/my-project/serviceAccounts/app-sa@my-project.iam.gserviceaccount.com",
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountUser"
@@ -61,7 +41,7 @@
       "principal": "user:charlie@example.com",
       "resources": [
         {
-          "resource_id": "my-production-project",
+          "resource_id": "my-project",
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"

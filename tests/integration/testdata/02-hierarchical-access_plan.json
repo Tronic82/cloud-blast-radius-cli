@@ -1,0 +1,53 @@
+{
+  "command": "impact",
+  "principals": [
+    {
+      "principal": "serviceAccount:backup-sa@production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/storage.objectAdmin"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:alice@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/bigquery.dataViewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:bob@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/storage.objectViewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:charlie@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/bigquery.dataEditor"
+          ]
+        }
+      ]
+    }
+  ]
+}

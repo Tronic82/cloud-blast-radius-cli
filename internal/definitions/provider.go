@@ -14,7 +14,7 @@ var embeddedResources []byte
 
 // ResourceConfig matches the structure of resources.yaml
 type ResourceConfig struct {
-	Resources []parser.ResourceDefinition `yaml:"resources"`
+	Resources []parser.ResourceDefinition `yaml:"definitions"`
 }
 
 // LoadResourceDefinitions loads definitions from embedded YAML or a custom file

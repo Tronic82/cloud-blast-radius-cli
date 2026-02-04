@@ -91,13 +91,11 @@ func IsImpersonationRole(role string) bool {
 func GetCanImpersonateFunc() func(string, string) bool {
 	// Create lookup map for fast checking
 	allowedMap := make(map[string]map[string]bool)
-	if impersonationRulesCache != nil {
-		for _, rule := range impersonationRulesCache {
-			if _, exists := allowedMap[rule.SourceType]; !exists {
-				allowedMap[rule.SourceType] = make(map[string]bool)
-			}
-			allowedMap[rule.SourceType][rule.TargetType] = true
+	for _, rule := range impersonationRulesCache {
+		if _, exists := allowedMap[rule.SourceType]; !exists {
+			allowedMap[rule.SourceType] = make(map[string]bool)
 		}
+		allowedMap[rule.SourceType][rule.TargetType] = true
 	}
 
 	return func(sourceType, targetType string) bool {

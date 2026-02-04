@@ -3,6 +3,7 @@ package policy
 import (
 	"blast-radius/internal/analyzer"
 	"blast-radius/internal/parser"
+	"fmt"
 )
 
 // PolicyValidator validates IAM configuration against policies
@@ -34,8 +35,8 @@ func NewValidator(
 // Validate runs all policy validations and returns a report
 func (v *PolicyValidator) Validate() (*ValidationReport, error) {
 	report := &ValidationReport{
-		TotalPolicies: len(v.config.Policies),
-		Violations:    []Violation{},
+		TotalPolicies:     len(v.config.Policies),
+		Violations:        []Violation{},
 		CompliantPolicies: []string{},
 	}
 
@@ -247,7 +248,7 @@ func (v *PolicyValidator) validateSeparationOfDuty(policy *Policy) []Violation {
 						ViolationType: ViolationTypeConflictingRoles,
 						Severity:      policy.Severity,
 						Principal:     principal,
-						Message:       "Principal has conflicting roles",
+						Message:       fmt.Sprintf("Principal has conflicting roles: %v", conflictingRoles),
 						Remediation:   "Remove one of the conflicting roles",
 					})
 				}

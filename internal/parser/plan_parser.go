@@ -8,8 +8,8 @@ import (
 
 // TerraformPlan represents the structure of terraform show -json output
 type TerraformPlan struct {
-	FormatVersion    string       `json:"format_version"`
-	TerraformVersion string       `json:"terraform_version"`
+	FormatVersion    string        `json:"format_version"`
+	TerraformVersion string        `json:"terraform_version"`
 	PlannedValues    PlannedValues `json:"planned_values"`
 }
 

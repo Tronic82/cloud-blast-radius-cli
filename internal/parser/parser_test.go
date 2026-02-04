@@ -12,7 +12,7 @@ func TestParseDir_EndToEnd(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(tmpDir)
+	defer func() { _ = os.RemoveAll(tmpDir) }()
 
 	// 2. Create Terraform Files
 	// variables.tf

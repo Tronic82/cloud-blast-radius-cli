@@ -8,18 +8,18 @@ type PolicyConfig struct {
 
 // Policy represents a single policy definition
 type Policy struct {
-	Name        string      `yaml:"name"`
-	Type        PolicyType  `yaml:"type"`
-	Description string      `yaml:"description"`
-	Severity    Severity    `yaml:"severity"`
+	Name        string     `yaml:"name"`
+	Type        PolicyType `yaml:"type"`
+	Description string     `yaml:"description"`
+	Severity    Severity   `yaml:"severity"`
 
 	// Type-specific fields
-	RoleRestriction         *RoleRestrictionPolicy     `yaml:"role_restriction,omitempty"`
-	Persona                 *PersonaPolicy             `yaml:"persona,omitempty"`
-	ResourceAccess          *ResourceAccessPolicy      `yaml:"resource_access,omitempty"`
-	SeparationOfDuty        *SeparationOfDutyPolicy    `yaml:"separation_of_duty,omitempty"`
-	ImpersonationEscalation *ImpersonationEscalation   `yaml:"impersonation_escalation,omitempty"`
-	EffectiveAccess         *EffectiveAccessPolicy     `yaml:"effective_access,omitempty"`
+	RoleRestriction         *RoleRestrictionPolicy   `yaml:"role_restriction,omitempty"`
+	Persona                 *PersonaPolicy           `yaml:"persona,omitempty"`
+	ResourceAccess          *ResourceAccessPolicy    `yaml:"resource_access,omitempty"`
+	SeparationOfDuty        *SeparationOfDutyPolicy  `yaml:"separation_of_duty,omitempty"`
+	ImpersonationEscalation *ImpersonationEscalation `yaml:"impersonation_escalation,omitempty"`
+	EffectiveAccess         *EffectiveAccessPolicy   `yaml:"effective_access,omitempty"`
 }
 
 // PolicyType defines the type of policy
@@ -52,21 +52,21 @@ type RoleRestrictionPolicy struct {
 
 // PersonaPolicy defines required and forbidden bindings for a persona
 type PersonaPolicy struct {
-	PersonaName                string                    `yaml:"persona_name"`
-	Principals                 []string                  `yaml:"principals"`
-	RequiredBindings           []RequiredBinding         `yaml:"required_bindings"`
-	ForbiddenBindings          []ForbiddenBinding        `yaml:"forbidden_bindings"`
-	AllowAdditionalAccess      bool                      `yaml:"allow_additional_access"`
-	ValidateTransitiveAccess   bool                      `yaml:"validate_transitive_access"`
-	TransitiveConstraints      *TransitiveConstraints    `yaml:"transitive_constraints,omitempty"`
+	PersonaName              string                 `yaml:"persona_name"`
+	Principals               []string               `yaml:"principals"`
+	RequiredBindings         []RequiredBinding      `yaml:"required_bindings"`
+	ForbiddenBindings        []ForbiddenBinding     `yaml:"forbidden_bindings"`
+	AllowAdditionalAccess    bool                   `yaml:"allow_additional_access"`
+	ValidateTransitiveAccess bool                   `yaml:"validate_transitive_access"`
+	TransitiveConstraints    *TransitiveConstraints `yaml:"transitive_constraints,omitempty"`
 }
 
 // ResourceAccessPolicy controls which principals can access resources
 type ResourceAccessPolicy struct {
-	Selector                   ResourceSelector          `yaml:"selector"`
-	AllowedPrincipals          []string                  `yaml:"allowed_principals"`
-	AllowedRolesPerPrincipal   map[string][]string       `yaml:"allowed_roles_per_principal,omitempty"`
-	ValidateEffectiveAccess    bool                      `yaml:"validate_effective_access"`
+	Selector                 ResourceSelector    `yaml:"selector"`
+	AllowedPrincipals        []string            `yaml:"allowed_principals"`
+	AllowedRolesPerPrincipal map[string][]string `yaml:"allowed_roles_per_principal,omitempty"`
+	ValidateEffectiveAccess  bool                `yaml:"validate_effective_access"`
 }
 
 // SeparationOfDutyPolicy prevents conflicting role combinations
@@ -115,10 +115,10 @@ type ForbiddenBinding struct {
 
 // TransitiveConstraints defines constraints on transitive access
 type TransitiveConstraints struct {
-	MaxImpersonationDepth         int               `yaml:"max_impersonation_depth"`
-	ForbiddenTransitiveRoles      []string          `yaml:"forbidden_transitive_roles"`
-	ForbiddenTransitiveResources  []ResourcePattern `yaml:"forbidden_transitive_resources"`
-	AllowedImpersonationTargets   []string          `yaml:"allowed_impersonation_targets"`
+	MaxImpersonationDepth        int               `yaml:"max_impersonation_depth"`
+	ForbiddenTransitiveRoles     []string          `yaml:"forbidden_transitive_roles"`
+	ForbiddenTransitiveResources []ResourcePattern `yaml:"forbidden_transitive_resources"`
+	AllowedImpersonationTargets  []string          `yaml:"allowed_impersonation_targets"`
 }
 
 // ResourcePattern defines a resource pattern for matching
@@ -129,12 +129,12 @@ type ResourcePattern struct {
 
 // EscalationRule defines a forbidden privilege escalation
 type EscalationRule struct {
-	FromRolePattern       string `yaml:"from_role_pattern,omitempty"`
-	ToRolePattern         string `yaml:"to_role_pattern,omitempty"`
-	FromPrincipalPattern  string `yaml:"from_principal_pattern,omitempty"`
-	ToPrincipalPattern    string `yaml:"to_principal_pattern,omitempty"`
-	ToResourcePattern     string `yaml:"to_resource_pattern,omitempty"`
-	Via                   string `yaml:"via"` // "impersonation"
+	FromRolePattern      string `yaml:"from_role_pattern,omitempty"`
+	ToRolePattern        string `yaml:"to_role_pattern,omitempty"`
+	FromPrincipalPattern string `yaml:"from_principal_pattern,omitempty"`
+	ToPrincipalPattern   string `yaml:"to_principal_pattern,omitempty"`
+	ToResourcePattern    string `yaml:"to_resource_pattern,omitempty"`
+	Via                  string `yaml:"via"` // "impersonation"
 }
 
 // Violation represents a policy violation
@@ -155,27 +155,27 @@ type Violation struct {
 type ViolationType string
 
 const (
-	ViolationTypeForbiddenRole           ViolationType = "forbidden_role"
-	ViolationTypeMissingRole             ViolationType = "missing_role"
-	ViolationTypeUnauthorizedPrincipal   ViolationType = "unauthorized_principal"
-	ViolationTypeConflictingRoles        ViolationType = "conflicting_roles"
-	ViolationTypeTransitiveRole          ViolationType = "transitive_role"
-	ViolationTypeTransitiveResource      ViolationType = "transitive_resource"
-	ViolationTypeImpersonationDepth      ViolationType = "impersonation_depth"
-	ViolationTypePrivilegeEscalation     ViolationType = "privilege_escalation"
-	ViolationTypeEffectiveAccess         ViolationType = "effective_access"
+	ViolationTypeForbiddenRole         ViolationType = "forbidden_role"
+	ViolationTypeMissingRole           ViolationType = "missing_role"
+	ViolationTypeUnauthorizedPrincipal ViolationType = "unauthorized_principal"
+	ViolationTypeConflictingRoles      ViolationType = "conflicting_roles"
+	ViolationTypeTransitiveRole        ViolationType = "transitive_role"
+	ViolationTypeTransitiveResource    ViolationType = "transitive_resource"
+	ViolationTypeImpersonationDepth    ViolationType = "impersonation_depth"
+	ViolationTypePrivilegeEscalation   ViolationType = "privilege_escalation"
+	ViolationTypeEffectiveAccess       ViolationType = "effective_access"
 )
 
 // ValidationReport summarizes policy validation results
 type ValidationReport struct {
-	TotalPolicies       int
-	TotalViolations     int
-	ErrorCount          int
-	WarningCount        int
-	InfoCount           int
-	Violations          []Violation
-	CompliantPolicies   []string
-	PrincipalsAnalyzed  int
-	MaxChainDepth       int
-	HighRiskFindings    []string
+	TotalPolicies      int
+	TotalViolations    int
+	ErrorCount         int
+	WarningCount       int
+	InfoCount          int
+	Violations         []Violation
+	CompliantPolicies  []string
+	PrincipalsAnalyzed int
+	MaxChainDepth      int
+	HighRiskFindings   []string
 }

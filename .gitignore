@@ -36,3 +36,10 @@ out.json
 .terraformrc
 terraform.rc
 .claude
+
+# Test Artifacts
+examples/**/tfplan
+examples/**/**.json
+examples/**/**.yaml
+*.test.exe
+bin/
