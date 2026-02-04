@@ -1,0 +1,65 @@
+{
+  "command": "impact",
+  "principals": [
+    {
+      "principal": "serviceAccount:backup-sa@project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "my-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/storage.objectAdmin"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:alice@example.com",
+      "resources": [
+        {
+          "resource_id": "my-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/bigquery.dataViewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:bob@example.com",
+      "resources": [
+        {
+          "resource_id": "my-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/storage.objectViewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:charlie@example.com",
+      "resources": [
+        {
+          "resource_id": "my-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/bigquery.dataEditor"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:eve@example.com",
+      "resources": [
+        {
+          "resource_id": "public-analytics",
+          "resource_type": "google_bigquery_dataset_iam_member",
+          "roles": [
+            "roles/bigquery.dataViewer"
+          ]
+        }
+      ]
+    }
+  ]
+}

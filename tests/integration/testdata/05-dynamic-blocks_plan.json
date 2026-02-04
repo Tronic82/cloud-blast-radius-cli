@@ -1,0 +1,103 @@
+{
+  "command": "impact",
+  "principals": [
+    {
+      "principal": "serviceAccount:backup-sa@production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:deployer-sa@production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:deployer@production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "dev-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        },
+        {
+          "resource_id": "prod-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        },
+        {
+          "resource_id": "staging-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:monitoring-sa@production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:alice@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:bob@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:charlie@example.com",
+      "resources": [
+        {
+          "resource_id": "production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        }
+      ]
+    }
+  ]
+}

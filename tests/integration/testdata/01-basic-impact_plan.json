@@ -1,0 +1,72 @@
+{
+  "command": "impact",
+  "principals": [
+    {
+      "principal": "group:developers@example.com",
+      "resources": [
+        {
+          "resource_id": "my-production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "serviceAccount:backup-sa@my-production-project.iam.gserviceaccount.com",
+      "resources": [
+        {
+          "resource_id": "data-bucket",
+          "resource_type": "google_storage_bucket_iam_member",
+          "roles": [
+            "roles/storage.objectViewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:alice@example.com",
+      "resources": [
+        {
+          "resource_id": "analytics-dataset",
+          "resource_type": "google_bigquery_dataset_iam_member",
+          "roles": [
+            "roles/bigquery.dataViewer"
+          ]
+        },
+        {
+          "resource_id": "my-production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/viewer"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:bob@example.com",
+      "resources": [
+        {
+          "resource_id": "projects/my-production-project/serviceAccounts/app-sa@my-production-project.iam.gserviceaccount.com",
+          "resource_type": "google_service_account_iam_member",
+          "roles": [
+            "roles/iam.serviceAccountUser"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "user:charlie@example.com",
+      "resources": [
+        {
+          "resource_id": "my-production-project",
+          "resource_type": "google_project_iam_member",
+          "roles": [
+            "roles/editor"
+          ]
+        }
+      ]
+    }
+  ]
+}

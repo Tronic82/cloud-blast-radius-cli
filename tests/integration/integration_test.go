@@ -1,11 +1,13 @@
 package integration
 
 import (
-	"encoding/json"
+	"flag"
 	"os"
 	"path/filepath"
 	"testing"
 )
+
+var update = flag.Bool("update", false, "update golden files")
 
 func TestIntegration_Examples(t *testing.T) {
 	// Build the binary once
@@ -39,11 +41,8 @@ func TestIntegration_Examples(t *testing.T) {
 					t.Fatalf("blast-radius run failed: %v\nstderr: %s", err, stderr)
 				}
 
-				// Verify output is valid JSON
-				var result map[string]interface{}
-				if err := json.Unmarshal([]byte(stdout), &result); err != nil {
-					t.Fatalf("failed to parse output json: %v\noutput: %s", err, stdout)
-				}
+				// Verify output against golden file
+				compareWithGoldenFile(t, stdout, entry.Name()+"_hcl.json", *update)
 
 				t.Logf("HCL mode test passed for %s", entry.Name())
 			})
@@ -84,11 +83,8 @@ func TestIntegration_Examples(t *testing.T) {
 					t.Fatalf("blast-radius run failed: %v\nstderr: %s", err, stderr)
 				}
 
-				// Verify output is valid JSON
-				var result map[string]interface{}
-				if err := json.Unmarshal([]byte(stdout), &result); err != nil {
-					t.Fatalf("failed to parse output json: %v\noutput: %s", err, stdout)
-				}
+				// Verify output against golden file
+				compareWithGoldenFile(t, stdout, entry.Name()+"_plan.json", *update)
 
 				t.Logf("Plan-mode test passed for %s", entry.Name())
 			})
