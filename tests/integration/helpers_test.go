@@ -1,0 +1,58 @@
+package integration
+
+import (
+	"bytes"
+	"os/exec"
+	"path/filepath"
+	"testing"
+)
+
+// runCommand runs a command and returns stdout, stderr, and error.
+func runCommand(dir string, name string, args ...string) (string, string, error) {
+	cmd := exec.Command(name, args...)
+	cmd.Dir = dir
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+	return stdout.String(), stderr.String(), err
+}
+
+// ensureTerraformInit runs terraform init in the given directory if not already initialized.
+func ensureTerraformInit(t *testing.T, dir string) {
+	// We'll rely on "terraform init" being idempotent.
+	_, stderr, err := runCommand(dir, "terraform", "init", "--upgrade")
+	if err != nil {
+		t.Fatalf("terraform init failed in %s: %v\nstderr: %s", dir, err, stderr)
+	}
+}
+
+// buildBlastRadius builds the blast-radius binary for testing.
+// Returns the absolute path to the binary.
+func buildBlastRadius(t *testing.T) string {
+	rootDir, err := filepath.Abs("../../")
+	if err != nil {
+		t.Fatalf("failed to get absolute path to root: %v", err)
+	}
+
+	outputPath := filepath.Join(rootDir, "bin", "blast-radius-test.exe")
+	// Note: Assuming Windows environment based on user metadata, adding .exe extension.
+	// Ideally this should detect OS, but for this context Windows is specified.
+	if !isWindows() {
+		outputPath = filepath.Join(rootDir, "bin", "blast-radius-test")
+	}
+
+	cmd := exec.Command("go", "build", "-o", outputPath, "./cmd/blast-radius")
+	cmd.Dir = rootDir
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("failed to build blast-radius: %v\noutput: %s", err, out)
+	}
+
+	return outputPath
+}
+
+func isWindows() bool {
+	return filepath.Separator == '\\'
+}

@@ -1,0 +1,21 @@
+{
+	"name": "Blast Radius CLI Dev",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go",
+				"hashicorp.terraform",
+				"ms-azuretools.vscode-docker",
+				"redhat.vscode-yaml",
+				"EditorConfig.EditorConfig",
+                "ms-python.python",
+                "ms-python.pylint"
+			]
+		}
+	},
+	"remoteUser": "vscode",
+	"postCreateCommand": "go mod tidy && pip install pre-commit && pre-commit install"
+}
