@@ -61,6 +61,7 @@ See the [USER_GUIDE.md](USER_GUIDE.md) for detailed usage instructions and examp
 ## License
 
 Distributed under the Apache 2.0 License. See `LICENSE` for more information.
+Copyright 2024-present [Wellington Junior Chirigo](https://github.com/Tronic82)
 
 ## Contributor License Agreement
 
