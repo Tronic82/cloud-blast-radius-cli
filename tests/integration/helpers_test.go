@@ -22,9 +22,10 @@ func runCommand(dir string, name string, args ...string) (string, string, error)
 // ensureTerraformInit runs terraform init in the given directory if not already initialized.
 func ensureTerraformInit(t *testing.T, dir string) {
 	// We'll rely on "terraform init" being idempotent.
-	_, stderr, err := runCommand(dir, "terraform", "init", "--upgrade")
+	// Use -backend=false since we don't need remote state for testing
+	stdout, stderr, err := runCommand(dir, "terraform", "init", "-backend=false", "-upgrade")
 	if err != nil {
-		t.Fatalf("terraform init failed in %s: %v\nstderr: %s", dir, err, stderr)
+		t.Fatalf("terraform init failed in %s: %v\nstdout: %s\nstderr: %s", dir, err, stdout, stderr)
 	}
 }
 

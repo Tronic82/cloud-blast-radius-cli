@@ -57,15 +57,15 @@ func TestIntegration_Examples(t *testing.T) {
 				ensureTerraformInit(t, planDir)
 
 				// 2. Run terraform plan -out=tfplan
-				_, stderr, err := runCommand(planDir, "terraform", "plan", "-out=tfplan")
+				stdout, stderr, err := runCommand(planDir, "terraform", "plan", "-out=tfplan")
 				if err != nil {
-					t.Fatalf("terraform plan failed: %v\nstderr: %s", err, stderr)
+					t.Fatalf("terraform plan failed: %v\nstdout: %s\nstderr: %s", err, stdout, stderr)
 				}
 
 				// 3. Run terraform show -json tfplan > blast.json
 				planJSON, stderr, err := runCommand(planDir, "terraform", "show", "-json", "tfplan")
 				if err != nil {
-					t.Fatalf("terraform show -json failed: %v\nstderr: %s", err, stderr)
+					t.Fatalf("terraform show -json failed: %v\nstdout: %s\nstderr: %s", err, planJSON, stderr)
 				}
 
 				blastJSONFile := filepath.Join(planDir, "blast.json")
@@ -75,7 +75,7 @@ func TestIntegration_Examples(t *testing.T) {
 				defer os.Remove(blastJSONFile)
 
 				// 4. Run blast-radius with the plan JSON
-				stdout, stderr, err := runCommand(planDir, binaryPath, "impact", "--plan", "blast.json", "--output", "json")
+				stdout, stderr, err = runCommand(planDir, binaryPath, "impact", "--plan", "blast.json", "--output", "json")
 				if err != nil {
 					t.Fatalf("blast-radius run failed: %v\nstderr: %s", err, stderr)
 				}
