@@ -1,65 +1,147 @@
 {
-  "command": "impact",
-  "principals": [
+  "hierarchical_access": [
     {
+      "grants": {
+        "access_type": "admin",
+        "affected_levels": [
+          "resource"
+        ],
+        "display_name": "Cloud Storage Bucket",
+        "resource_types": [
+          "google_storage_bucket"
+        ]
+      },
+      "hierarchy_known": false,
       "principal": "serviceAccount:backup-sa@project.iam.gserviceaccount.com",
-      "resources": [
-        {
-          "resource_id": "my-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/storage.objectAdmin"
-          ]
-        }
-      ]
+      "principal_type": "serviceAccount",
+      "role": "roles/storage.objectAdmin",
+      "scope": {
+        "id": "my-project",
+        "type": "project"
+      },
+      "source": {
+        "resource_address": "google_project_iam_member.dave_storage_admin",
+        "resource_type": "google_project_iam_member"
+      }
     },
     {
+      "grants": {
+        "access_type": "read",
+        "affected_levels": [
+          "resource"
+        ],
+        "display_name": "BigQuery Dataset",
+        "resource_types": [
+          "google_bigquery_dataset"
+        ]
+      },
+      "hierarchy_known": false,
       "principal": "user:alice@example.com",
-      "resources": [
-        {
-          "resource_id": "my-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/bigquery.dataViewer"
-          ]
-        }
-      ]
+      "principal_type": "user",
+      "role": "roles/bigquery.dataViewer",
+      "scope": {
+        "id": "my-project",
+        "type": "project"
+      },
+      "source": {
+        "resource_address": "google_project_iam_member.alice_bq_viewer",
+        "resource_type": "google_project_iam_member"
+      }
     },
     {
+      "grants": {
+        "access_type": "read",
+        "affected_levels": [
+          "resource"
+        ],
+        "display_name": "Cloud Storage Bucket",
+        "resource_types": [
+          "google_storage_bucket"
+        ]
+      },
+      "hierarchy_known": false,
       "principal": "user:bob@example.com",
-      "resources": [
-        {
-          "resource_id": "my-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/storage.objectViewer"
-          ]
-        }
-      ]
+      "principal_type": "user",
+      "role": "roles/storage.objectViewer",
+      "scope": {
+        "id": "my-project",
+        "type": "project"
+      },
+      "source": {
+        "resource_address": "google_project_iam_member.bob_storage_viewer",
+        "resource_type": "google_project_iam_member"
+      }
     },
     {
+      "grants": {
+        "access_type": "write",
+        "affected_levels": [
+          "resource"
+        ],
+        "display_name": "BigQuery Dataset",
+        "resource_types": [
+          "google_bigquery_dataset"
+        ]
+      },
+      "hierarchy_known": false,
       "principal": "user:charlie@example.com",
-      "resources": [
-        {
-          "resource_id": "my-project",
-          "resource_type": "google_project_iam_member",
-          "roles": [
-            "roles/bigquery.dataEditor"
-          ]
-        }
-      ]
+      "principal_type": "user",
+      "role": "roles/bigquery.dataEditor",
+      "scope": {
+        "id": "my-project",
+        "type": "project"
+      },
+      "source": {
+        "resource_address": "google_project_iam_member.charlie_bq_editor",
+        "resource_type": "google_project_iam_member"
+      }
+    }
+  ],
+  "hierarchy": {
+    "nodes": [
+      {
+        "id": "my-project",
+        "type": "project"
+      }
+    ],
+    "unknown": [
+      {
+        "id": "my-project",
+        "referenced_by": [
+          "google_project_iam_member.alice_bq_viewer"
+        ],
+        "type": "project"
+      }
+    ]
+  },
+  "provider": "gcp",
+  "source": {
+    "input_mode": "hcl",
+    "path": ".",
+    "type": "directory"
+  },
+  "summary": {
+    "by_access_type": {
+      "admin": 1,
+      "read": 2,
+      "write": 1
     },
+    "by_scope": {
+      "project": 4
+    },
+    "hierarchical_bindings": 4,
+    "principals_with_hierarchical_access": 4,
+    "total_bindings_analyzed": 5,
+    "unknown_hierarchy_count": 1,
+    "unknown_roles_count": 0
+  },
+  "version": "1.0",
+  "warnings": [
     {
-      "principal": "user:eve@example.com",
-      "resources": [
-        {
-          "resource_id": "public-analytics",
-          "resource_type": "google_bigquery_dataset_iam_member",
-          "roles": [
-            "roles/bigquery.dataViewer"
-          ]
-        }
-      ]
+      "message": "Parent hierarchy unknown, folder and org level bindings may also apply",
+      "scope_id": "my-project",
+      "scope_type": "project",
+      "type": "unknown_hierarchy"
     }
   ]
 }
