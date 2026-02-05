@@ -1,8 +1,8 @@
 package analyzer
 
 import (
-	"blast-radius/internal/definitions"
-	"blast-radius/internal/parser"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/definitions"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 )
 
 // PrincipalData holds all access data for a single principal

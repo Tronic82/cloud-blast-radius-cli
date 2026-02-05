@@ -7,11 +7,11 @@ import (
 	"sort"
 	"strings"
 
-	"blast-radius/internal/analyzer"
-	"blast-radius/internal/config"
-	"blast-radius/internal/definitions"
-	"blast-radius/internal/parser"
-	"blast-radius/internal/policy"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/config"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/definitions"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/policy"
 
 	"github.com/spf13/cobra"
 )

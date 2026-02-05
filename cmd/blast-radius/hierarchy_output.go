@@ -4,19 +4,19 @@ import (
 	"sort"
 	"time"
 
-	"blast-radius/internal/analyzer"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
 )
 
 // NewHierarchyOutput represents the comprehensive JSON output for the hierarchy command
 type NewHierarchyOutput struct {
-	Version            string                            `json:"version"`
-	Provider           string                            `json:"provider"`
-	Timestamp          time.Time                         `json:"timestamp"`
-	Source             SourceInfo                        `json:"source"`
-	Hierarchy          HierarchyInfo                     `json:"hierarchy"`
+	Version            string                             `json:"version"`
+	Provider           string                             `json:"provider"`
+	Timestamp          time.Time                          `json:"timestamp"`
+	Source             SourceInfo                         `json:"source"`
+	Hierarchy          HierarchyInfo                      `json:"hierarchy"`
 	HierarchicalAccess []analyzer.HierarchicalAccessEntry `json:"hierarchical_access"`
-	Warnings           []analyzer.Warning                `json:"warnings"`
-	Summary            HierarchySummary                  `json:"summary"`
+	Warnings           []analyzer.Warning                 `json:"warnings"`
+	Summary            HierarchySummary                   `json:"summary"`
 }
 
 // SourceInfo describes where the analysis input came from
@@ -34,13 +34,13 @@ type HierarchyInfo struct {
 
 // HierarchySummary provides summary statistics
 type HierarchySummary struct {
-	TotalBindingsAnalyzed          int            `json:"total_bindings_analyzed"`
-	HierarchicalBindings           int            `json:"hierarchical_bindings"`
-	PrincipalsWithHierarchicalAccess int          `json:"principals_with_hierarchical_access"`
-	UnknownHierarchyCount          int            `json:"unknown_hierarchy_count"`
-	UnknownRolesCount              int            `json:"unknown_roles_count"`
-	ByScope                        map[string]int `json:"by_scope"`
-	ByAccessType                   map[string]int `json:"by_access_type"`
+	TotalBindingsAnalyzed            int            `json:"total_bindings_analyzed"`
+	HierarchicalBindings             int            `json:"hierarchical_bindings"`
+	PrincipalsWithHierarchicalAccess int            `json:"principals_with_hierarchical_access"`
+	UnknownHierarchyCount            int            `json:"unknown_hierarchy_count"`
+	UnknownRolesCount                int            `json:"unknown_roles_count"`
+	ByScope                          map[string]int `json:"by_scope"`
+	ByAccessType                     map[string]int `json:"by_access_type"`
 }
 
 // ConvertToNewHierarchyOutput converts analyzer results to the new comprehensive format

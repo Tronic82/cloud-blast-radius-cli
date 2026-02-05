@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"blast-radius/internal/definitions"
-	"blast-radius/internal/parser"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/definitions"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 )
 
 // HierarchyNode represents a node in the resource hierarchy
@@ -131,8 +131,8 @@ func AnalyzeHierarchy(bindings []parser.IAMBinding) *HierarchyAnalysisResult {
 	}
 
 	// Track warnings to avoid duplicates
-	warnedScopes := make(map[string]bool)     // "type:id" -> true for unknown hierarchy warnings
-	warnedRoles := make(map[string]bool)      // role -> true for unknown role warnings
+	warnedScopes := make(map[string]bool) // "type:id" -> true for unknown hierarchy warnings
+	warnedRoles := make(map[string]bool)  // role -> true for unknown role warnings
 
 	// 3. Analyze hierarchical access for each binding
 	for _, binding := range bindings {

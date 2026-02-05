@@ -1,4 +1,4 @@
-module blast-radius
+module github.com/Tronic82/cloud-blast-radius-cli
 
 go 1.23.0
 
