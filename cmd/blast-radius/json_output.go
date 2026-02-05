@@ -7,8 +7,8 @@ import (
 	"sort"
 	"time"
 
-	"blast-radius/internal/analyzer"
-	"blast-radius/internal/policy"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/policy"
 )
 
 // OutputFormat is the global flag for output format (text or json)

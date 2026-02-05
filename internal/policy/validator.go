@@ -1,9 +1,10 @@
 package policy
 
 import (
-	"blast-radius/internal/analyzer"
-	"blast-radius/internal/parser"
 	"fmt"
+
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 )
 
 // PolicyValidator validates IAM configuration against policies

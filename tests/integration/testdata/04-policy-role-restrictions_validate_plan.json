@@ -1,0 +1,30 @@
+{
+  "command": "validate",
+  "status": "passed",
+  "violations": [
+    {
+      "message": "Principal has forbidden role",
+      "policy": "Developer Role Restrictions",
+      "principal": "group:developers@example.com",
+      "resource": "production-project",
+      "role": "roles/editor",
+      "severity": ""
+    },
+    {
+      "message": "Principal has role not in allowed list",
+      "policy": "Developer Role Restrictions",
+      "principal": "group:developers@example.com",
+      "resource": "production-project",
+      "role": "roles/editor",
+      "severity": ""
+    },
+    {
+      "message": "Principal has forbidden role",
+      "policy": "Service Account Role Restrictions",
+      "principal": "serviceAccount:app-sa@production-project.iam.gserviceaccount.com",
+      "resource": "production-project",
+      "role": "roles/owner",
+      "severity": ""
+    }
+  ]
+}

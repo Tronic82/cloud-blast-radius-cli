@@ -1,10 +1,11 @@
 package definitions
 
 import (
-	"blast-radius/internal/parser"
 	_ "embed"
 	"fmt"
 	"os"
+
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 
 	"gopkg.in/yaml.v3"
 )

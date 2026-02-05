@@ -1,9 +1,10 @@
 package analyzer
 
 import (
-	"blast-radius/internal/definitions"
-	"blast-radius/internal/parser"
 	"strings"
+
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/definitions"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 )
 
 // ImpersonationGraph represents the impersonation relationships between principals

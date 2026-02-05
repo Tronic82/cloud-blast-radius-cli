@@ -1329,25 +1329,31 @@ definitions:
       members: ""
   - type: google_folder_iam_binding
     category: folder
+    resource_level: folder
     field_mappings:
       resource_id: folder
       role: role
       member: ""
       members: members
+      parent: parent
   - type: google_folder_iam_member
     category: folder
+    resource_level: folder
     field_mappings:
       resource_id: folder
       role: role
       member: member
       members: ""
+      parent: parent
   - type: google_folder_iam_policy
     category: folder
+    resource_level: folder
     field_mappings:
       resource_id: folder
       role: role
       member: ""
       members: ""
+      parent: parent
   # - type: google_gemini_repository_group_iam_binding
   #   category: gemini
   #   field_mappings:
@@ -2022,6 +2028,7 @@ definitions:
       members: ""
   - type: google_organization_iam_binding
     category: organization
+    resource_level: organization
     field_mappings:
       resource_id: org_id
       role: role
@@ -2029,6 +2036,7 @@ definitions:
       members: members
   - type: google_organization_iam_member
     category: organization
+    resource_level: organization
     field_mappings:
       resource_id: org_id
       role: role
@@ -2036,6 +2044,7 @@ definitions:
       members: ""
   - type: google_organization_iam_policy
     category: organization
+    resource_level: organization
     field_mappings:
       resource_id: org_id
       role: role
@@ -2085,25 +2094,31 @@ definitions:
       members: ""
   - type: google_project_iam_binding
     category: project
+    resource_level: project
     field_mappings:
       resource_id: project
       role: role
       member: ""
       members: members
+      parent: folder_id
   - type: google_project_iam_member
     category: project
+    resource_level: project
     field_mappings:
       resource_id: project
       role: role
       member: member
       members: ""
+      parent: folder_id
   - type: google_project_iam_policy
     category: project
+    resource_level: project
     field_mappings:
       resource_id: project
       role: role
       member: ""
       members: ""
+      parent: folder_id
   - type: google_pubsub_schema_iam_binding
     category: pubsub
     field_mappings:

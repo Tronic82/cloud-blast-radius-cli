@@ -1,9 +1,10 @@
 package policy
 
 import (
-	"blast-radius/internal/analyzer"
 	"fmt"
 	"strings"
+
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
 )
 
 // validatePersona validates persona policies (including transitive access)

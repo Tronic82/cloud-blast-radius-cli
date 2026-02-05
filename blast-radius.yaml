@@ -1,0 +1,9 @@
+cloud_provider: gcp
+exclusions:
+    - resource: example-ignored-project
+      resource_type: ""
+      role: .*
+ignored_directories:
+    - .terraform
+    - modules
+analysis_accounts: []

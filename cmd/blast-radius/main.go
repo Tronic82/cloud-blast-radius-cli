@@ -7,11 +7,11 @@ import (
 	"sort"
 	"strings"
 
-	"blast-radius/internal/analyzer"
-	"blast-radius/internal/config"
-	"blast-radius/internal/definitions"
-	"blast-radius/internal/parser"
-	"blast-radius/internal/policy"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/config"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/definitions"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
+	"github.com/Tronic82/cloud-blast-radius-cli/internal/policy"
 
 	"github.com/spf13/cobra"
 )
@@ -196,8 +196,8 @@ func main() {
 
 	var hierarchyCmd = &cobra.Command{
 		Use:   "hierarchy [directory]",
-		Short: "Show hierarchical access from project-level roles",
-		Long:  `Analyzes project-level IAM roles to determine hierarchical access to resources.`,
+		Short: "Analyze hierarchical access from organization/folder/project-level roles",
+		Long:  `Analyzes IAM bindings at organization, folder, and project levels to determine hierarchical access to resources.`,
 		Args:  cobra.MaximumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			dir := "."
@@ -232,71 +232,84 @@ func main() {
 			}
 
 			var bindings []parser.IAMBinding
+			var sourceInfo SourceInfo
 			if planFile != "" {
 				bindings, err = parser.ParsePlanFile(planFile, defs)
 				if err != nil {
 					fmt.Printf("Error parsing plan file: %v\n", err)
 					os.Exit(1)
 				}
+				sourceInfo = SourceInfo{Type: "plan_file", Path: planFile, InputMode: "plan_json"}
 			} else {
 				bindings, err = parser.ParseDir(dir, tfvarsFile, defs, cfg.IgnoredDirectories)
 				if err != nil {
 					fmt.Printf("Error parsing directory: %v\n", err)
 					os.Exit(1)
 				}
+				sourceInfo = SourceInfo{Type: "directory", Path: dir, InputMode: "hcl"}
 			}
 
-			results := analyzer.Analyze(bindings)
+			// Perform hierarchy analysis
+			result := analyzer.AnalyzeHierarchy(bindings)
 
 			if outputFormat == "json" {
-				jsonOut := ConvertToHierarchyOutput(results)
+				jsonOut := ConvertToNewHierarchyOutput(result, sourceInfo, len(bindings))
 				printJSON(jsonOut)
 				return
 			}
 
 			// Text output
 			fmt.Println("\n--- Hierarchical Access Report ---")
-			principals := make([]string, 0, len(results))
-			for p := range results {
+
+			if len(result.HierarchicalAccess) == 0 {
+				fmt.Println("\nNo hierarchical access detected.")
+				fmt.Println("(Hierarchical access occurs when roles are granted at organization, folder, or project level)")
+				return
+			}
+
+			// Group by principal for cleaner output
+			byPrincipal := make(map[string][]analyzer.HierarchicalAccessEntry)
+			for _, entry := range result.HierarchicalAccess {
+				byPrincipal[entry.Principal] = append(byPrincipal[entry.Principal], entry)
+			}
+
+			// Sort principals
+			principals := make([]string, 0, len(byPrincipal))
+			for p := range byPrincipal {
 				principals = append(principals, p)
 			}
 			sort.Strings(principals)
 
 			for _, principal := range principals {
-				data := results[principal]
-				if len(data.HierarchicalAccess) == 0 {
-					continue
-				}
-
+				entries := byPrincipal[principal]
 				fmt.Printf("\nPrincipal: %s\n", principal)
 				fmt.Println("  Hierarchical Access:")
 
-				var projects []string
-				for proj := range data.HierarchicalAccess {
-					projects = append(projects, proj)
-				}
-				sort.Strings(projects)
-
-				for _, proj := range projects {
-					resTypes := data.HierarchicalAccess[proj]
-					var types []string
-					for rt := range resTypes {
-						types = append(types, rt)
+				for _, entry := range entries {
+					displayName := entry.Grants.DisplayName
+					if displayName == "" {
+						displayName = "resources"
 					}
-					sort.Strings(types)
-
-					for _, rt := range types {
-						friendlyName := rt
-						switch rt {
-						case "google_bigquery_dataset":
-							friendlyName = "BigQuery datasets"
-						case "google_storage_bucket":
-							friendlyName = "Storage buckets"
-						}
-						fmt.Printf("    - All %s in project '%s'\n", friendlyName, proj)
-					}
+					fmt.Printf("    - All %s in %s '%s' (%s access via %s)\n",
+						displayName,
+						entry.Scope.Type,
+						entry.Scope.ID,
+						entry.Grants.AccessType,
+						entry.Role)
 				}
 			}
+
+			// Print warnings
+			if len(result.Warnings) > 0 {
+				fmt.Println("\nWarnings:")
+				for _, w := range result.Warnings {
+					fmt.Printf("  - [%s] %s\n", w.Type, w.Message)
+				}
+			}
+
+			// Print summary
+			fmt.Printf("\nSummary: %d principals with hierarchical access across %d bindings\n",
+				len(principals), len(result.HierarchicalAccess))
 		},
 	}
 	hierarchyCmd.Flags().StringVar(&tfvarsFile, "tfvars", "", "Path to terraform.tfvars file")
