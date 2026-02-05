@@ -321,7 +321,7 @@ func TestIntegration_Init(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 
 	t.Run("init/creates-config", func(t *testing.T) {
 		// Run init command with stdin input to select GCP provider
@@ -356,7 +356,7 @@ func TestIntegration_Init(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to create temp dir: %v", err)
 		}
-		defer os.RemoveAll(tempDir2)
+		defer func() { _ = os.RemoveAll(tempDir2) }()
 
 		// Create a config file first
 		configPath := filepath.Join(tempDir2, "blast-radius.yaml")
