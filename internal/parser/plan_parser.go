@@ -96,7 +96,8 @@ func extractBindingsFromModule(module Module, defMap map[string]ResourceDefiniti
 // extractBindingFromResource extracts an IAMBinding from a Terraform resource
 func extractBindingFromResource(resource Resource, def ResourceDefinition) (IAMBinding, error) {
 	binding := IAMBinding{
-		ResourceType: resource.Type,
+		ResourceType:  resource.Type,
+		TerraformAddr: resource.Address,
 	}
 
 	// Extract ResourceID
@@ -137,6 +138,33 @@ func extractBindingFromResource(resource Resource, def ResourceDefinition) (IAMB
 				}
 			}
 		}
+	}
+
+	// Set ResourceLevel from definition (defaults to "resource" if not set)
+	binding.ResourceLevel = def.ResourceLevel
+	if binding.ResourceLevel == "" {
+		binding.ResourceLevel = "resource"
+	}
+
+	// Extract parent ID if defined
+	if def.FieldMappings.Parent != "" {
+		if val, ok := resource.Values[def.FieldMappings.Parent]; ok {
+			if strVal, ok := val.(string); ok {
+				binding.ParentID = strVal
+			}
+		}
+	}
+
+	// Determine parent type based on resource level
+	switch binding.ResourceLevel {
+	case "folder":
+		binding.ParentType = "organization"
+	case "project":
+		if binding.ParentID != "" {
+			binding.ParentType = "folder"
+		}
+	case "resource":
+		binding.ParentType = "project"
 	}
 
 	// Validation

@@ -13,10 +13,14 @@ import (
 
 // IAMBinding represents a single IAM binding found in Terraform
 type IAMBinding struct {
-	ResourceID   string // The identifier of the resource (e.g. project ID, bucket name)
-	ResourceType string // The type of the resource (e.g. "google_project", "google_storage_bucket") - inferred from TF resource type
-	Role         string
-	Members      []string
+	ResourceID    string   // The identifier of the resource (e.g. project ID, bucket name)
+	ResourceType  string   // The type of the resource (e.g. "google_project", "google_storage_bucket") - inferred from TF resource type
+	ResourceLevel string   // The hierarchy level: "organization", "folder", "project", "resource"
+	Role          string   // The IAM role (e.g. "roles/storage.admin")
+	Members       []string // The principals granted this role
+	ParentID      string   // Parent resource ID (e.g. folder ID, org ID)
+	ParentType    string   // Parent resource type: "organization", "folder", "project"
+	TerraformAddr string   // Full terraform address (e.g. "google_project_iam_member.alice")
 }
 
 // ParseDir scans a directory recursively for Terraform files and parses them for IAM bindings based on definitions
@@ -322,6 +326,34 @@ func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *Con
 
 	// Infer ResourceType from definition Type (simple heuristic)
 	binding.ResourceType = def.Type
+
+	// Set ResourceLevel from definition (defaults to "resource" if not set)
+	binding.ResourceLevel = def.ResourceLevel
+	if binding.ResourceLevel == "" {
+		binding.ResourceLevel = "resource"
+	}
+
+	// Extract parent ID if defined
+	if hclName := def.FieldMappings.Parent; hclName != "" {
+		binding.ParentID = getString(hclName)
+	}
+
+	// Determine parent type based on resource level
+	switch binding.ResourceLevel {
+	case "folder":
+		binding.ParentType = "organization"
+	case "project":
+		if binding.ParentID != "" {
+			binding.ParentType = "folder"
+		}
+	case "resource":
+		binding.ParentType = "project"
+	}
+
+	// Store terraform address (resource_type.resource_name)
+	if len(block.Labels) >= 2 {
+		binding.TerraformAddr = fmt.Sprintf("%s.%s", block.Labels[0], block.Labels[1])
+	}
 
 	// Basic validation: must have role and members
 	if binding.Role == "" || len(binding.Members) == 0 {
