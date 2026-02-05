@@ -20,6 +20,19 @@ func runCommand(dir string, name string, args ...string) (string, string, error)
 	return stdout.String(), stderr.String(), err
 }
 
+// runCommandWithInput runs a command with stdin input and returns stdout, stderr, and error.
+func runCommandWithInput(dir string, input string, name string, args ...string) (string, string, error) {
+	cmd := exec.Command(name, args...)
+	cmd.Dir = dir
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	cmd.Stdin = bytes.NewBufferString(input)
+
+	err := cmd.Run()
+	return stdout.String(), stderr.String(), err
+}
+
 // ensureTerraformInit runs terraform init in the given directory if not already initialized.
 func ensureTerraformInit(t *testing.T, dir string) {
 	// We'll rely on "terraform init" being idempotent.

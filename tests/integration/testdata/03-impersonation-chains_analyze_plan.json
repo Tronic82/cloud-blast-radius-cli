@@ -1,0 +1,7 @@
+{
+  "account": "user:alice@example.com",
+  "command": "analyze",
+  "direct_access": null,
+  "hierarchical_access": null,
+  "transitive_access": null
+}
