@@ -1,38 +1,75 @@
 hierarchical_roles:
   # BigQuery Roles
   "roles/bigquery.dataViewer":
+    display_name: "BigQuery Dataset"
     resource_types: ["google_bigquery_dataset"]
+    target_level: "resource"
     access_level: "read"
   "roles/bigquery.dataEditor":
+    display_name: "BigQuery Dataset"
     resource_types: ["google_bigquery_dataset"]
+    target_level: "resource"
     access_level: "write"
   "roles/bigquery.dataOwner":
+    display_name: "BigQuery Dataset"
     resource_types: ["google_bigquery_dataset"]
+    target_level: "resource"
     access_level: "admin"
   "roles/bigquery.admin":
+    display_name: "BigQuery Dataset"
     resource_types: ["google_bigquery_dataset"]
+    target_level: "resource"
     access_level: "admin"
-  
+
   # Storage Roles
   "roles/storage.objectViewer":
+    display_name: "Cloud Storage Bucket"
     resource_types: ["google_storage_bucket"]
+    target_level: "resource"
     access_level: "read"
   "roles/storage.objectCreator":
+    display_name: "Cloud Storage Bucket"
     resource_types: ["google_storage_bucket"]
+    target_level: "resource"
     access_level: "write"
   "roles/storage.objectAdmin":
+    display_name: "Cloud Storage Bucket"
     resource_types: ["google_storage_bucket"]
+    target_level: "resource"
     access_level: "admin"
   "roles/storage.admin":
+    display_name: "Cloud Storage Bucket"
     resource_types: ["google_storage_bucket"]
+    target_level: "resource"
     access_level: "admin"
-  
+
+  # Primitive Roles (affect all resources)
+  "roles/viewer":
+    display_name: "All Resources"
+    resource_types: ["*"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/editor":
+    display_name: "All Resources"
+    resource_types: ["*"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/owner":
+    display_name: "All Resources"
+    resource_types: ["*"]
+    target_level: "resource"
+    access_level: "admin"
+
   # IAM Roles (for impersonation)
   "roles/iam.serviceAccountUser":
+    display_name: "Service Account"
     resource_types: []
+    target_level: "resource"
     access_level: "impersonate"
   "roles/iam.serviceAccountTokenCreator":
+    display_name: "Service Account"
     resource_types: []
+    target_level: "resource"
     access_level: "impersonate"
 
 impersonation_roles:

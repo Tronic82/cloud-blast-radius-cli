@@ -13,8 +13,10 @@ var embeddedRules []byte
 
 // RoleHierarchy defines access granted by a role
 type RoleHierarchy struct {
-	ResourceTypes []string `yaml:"resource_types"`
-	AccessLevel   string   `yaml:"access_level"`
+	DisplayName   string   `yaml:"display_name"`   // Human-readable name (e.g., "BigQuery Dataset")
+	ResourceTypes []string `yaml:"resource_types"` // Terraform resource types this role grants access to
+	TargetLevel   string   `yaml:"target_level"`   // The natural level for this role: "resource", "project", etc.
+	AccessLevel   string   `yaml:"access_level"`   // read, write, admin, impersonate
 }
 
 // ImpersonationRule defines a valid impersonation path
@@ -72,6 +74,33 @@ func GetResourceTypesForRole(role string) []string {
 		return hierarchy.ResourceTypes
 	}
 	return nil
+}
+
+// GetRoleHierarchy returns the full hierarchy info for a role
+func GetRoleHierarchy(role string) *RoleHierarchy {
+	if hierarchicalRolesCache == nil {
+		return nil
+	}
+	if hierarchy, exists := hierarchicalRolesCache[role]; exists {
+		return &hierarchy
+	}
+	return nil
+}
+
+// GetDisplayNameForResourceType returns a human-readable display name for a resource type
+func GetDisplayNameForResourceType(resourceType string) string {
+	if hierarchicalRolesCache == nil {
+		return resourceType
+	}
+	// Search through all roles to find one that references this resource type
+	for _, h := range hierarchicalRolesCache {
+		for _, rt := range h.ResourceTypes {
+			if rt == resourceType {
+				return h.DisplayName
+			}
+		}
+	}
+	return resourceType // fallback to raw type
 }
 
 // IsImpersonationRole checks if the role grants impersonation capabilities
