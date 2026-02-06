@@ -133,7 +133,12 @@ func (v *PolicyValidator) validateRoleRestriction(policy *Policy) []Violation {
 				}
 
 				// Check if role is not allowed (if allowed list specified)
-				if len(restriction.AllowedRoles) > 0 && !IsRoleIn(role, restriction.AllowedRoles) {
+				// AllowedRoles is a pointer: nil means not specified, non-nil (even empty) means enforce
+				if restriction.AllowedRoles != nil && !IsRoleIn(role, *restriction.AllowedRoles) {
+					message := "Principal has role not in allowed list"
+					if len(*restriction.AllowedRoles) == 0 {
+						message = "Principal has role but no roles are allowed"
+					}
 					violations = append(violations, Violation{
 						PolicyName:    policy.Name,
 						ViolationType: ViolationTypeForbiddenRole,
@@ -141,7 +146,7 @@ func (v *PolicyValidator) validateRoleRestriction(policy *Policy) []Violation {
 						Principal:     principal,
 						Resource:      resourceID,
 						Role:          role,
-						Message:       "Principal has role not in allowed list",
+						Message:       message,
 						Remediation:   "Remove role binding or add role to allowed list",
 					})
 				}
