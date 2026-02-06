@@ -160,6 +160,32 @@ policies:
     <type_specific_config>
 ```
 
+### Pattern Matching (Regex)
+
+All pattern fields (`principal_pattern`, `resource_pattern`, `role_pattern`, etc.) use **regular expressions** (regex). The special pattern `"*"` matches everything.
+
+#### Common Regex Patterns
+
+| Pattern | Matches | Description |
+|---------|---------|-------------|
+| `*` | Everything | Special wildcard |
+| `^user:.*` | `user:alice@example.com` | All users |
+| `^serviceAccount:.*` | `serviceAccount:sa@project.iam.gserviceaccount.com` | All service accounts |
+| `^group:.*@example\.com$` | `group:developers@example.com` | Groups in example.com domain |
+| `^roles/owner$` | `roles/owner` | Exact match for owner role |
+| `^roles/storage\..*` | `roles/storage.admin`, `roles/storage.objectViewer` | All storage roles |
+| `^prod-.*` | `prod-project`, `prod-database` | Resources starting with prod- |
+| `.*-staging$` | `app-staging`, `db-staging` | Resources ending with -staging |
+
+#### Regex Tips
+
+- Use `^` to anchor at the start of the string
+- Use `$` to anchor at the end of the string
+- Escape special characters with `\` (e.g., `\.` for a literal dot)
+- Use `.*` to match any characters
+- Use `[a-z]+` for one or more lowercase letters
+- If your pattern is invalid regex, it falls back to exact string matching
+
 ### Policy Types
 
 #### 1. Role Restriction (`role_restriction`)
@@ -173,7 +199,7 @@ policies:
     severity: error
     role_restriction:
       selector:
-        principal_pattern: "group:developers@*"  # Regex pattern
+        principal_pattern: "^group:developers@.*"  # Regex: starts with group:developers@
       allowed_roles:
         - "roles/viewer"
         - "roles/bigquery.dataViewer"
@@ -185,7 +211,7 @@ policies:
 **Fields:**
 | Field | Type | Description |
 |-------|------|-------------|
-| `selector.principal_pattern` | string | Regex to match principals |
+| `selector.principal_pattern` | string | Regex pattern to match principals (e.g., `^user:.*@example\.com$`) |
 | `allowed_roles` | array | Only these roles are permitted (if specified) |
 | `denied_roles` | array | These roles are forbidden |
 
@@ -208,8 +234,8 @@ policies:
         - resource_pattern: "dev-project"
           role: "roles/viewer"
       forbidden_bindings:
-        - resource_pattern: "prod-*"
-          role: "roles/.*"  # No access to prod
+        - resource_pattern: "^prod-.*"
+          role: ".*"  # No access to prod (any role)
       allow_additional_access: true
       validate_transitive_access: true
       transitive_constraints:
@@ -242,7 +268,7 @@ policies:
     severity: error
     resource_access:
       selector:
-        resource_pattern: "prod-.*"
+        resource_pattern: "^prod-.*"  # Regex: resources starting with prod-
         resource_type: "google_sql_database_instance"
       allowed_principals:
         - "group:dba@example.com"
@@ -296,11 +322,11 @@ policies:
     severity: error
     impersonation_escalation:
       forbidden_escalations:
-        - from_role_pattern: "roles/viewer"
-          to_role_pattern: "roles/owner"
+        - from_role_pattern: "^roles/viewer$"
+          to_role_pattern: "^roles/owner$"
           via: impersonation
-        - from_principal_pattern: "group:developers@*"
-          to_resource_pattern: "prod-.*"
+        - from_principal_pattern: "^group:developers@.*"
+          to_resource_pattern: "^prod-.*"
           via: impersonation
 ```
 
@@ -328,13 +354,13 @@ policies:
     severity: error
     effective_access:
       selector:
-        resource_pattern: "prod-secrets-.*"
+        resource_pattern: "^prod-secrets-.*"  # Regex: resources starting with prod-secrets-
         resource_type: "google_secret_manager_secret"
       validate_effective_access: true
       allowed_effective_principals:
         - "serviceAccount:prod-app@project.iam.gserviceaccount.com"
       forbidden_effective_principals:
-        - "user:*"  # No users should have direct access
+        - "^user:.*"  # No users should have direct access
 ```
 
 **Fields:**
@@ -361,7 +387,7 @@ policies:
     description: "Developers should only have viewer access"
     role_restriction:
       selector:
-        principal_pattern: "group:developers@.*"
+        principal_pattern: "^group:developers@.*"  # Regex: starts with group:developers@
       allowed_roles:
         - "roles/viewer"
         - "roles/bigquery.dataViewer"
@@ -377,7 +403,7 @@ policies:
     severity: error
     role_restriction:
       selector:
-        principal_pattern: "serviceAccount:.*"
+        principal_pattern: "^serviceAccount:.*"  # Regex: all service accounts
       denied_roles:
         - "roles/owner"
 
@@ -387,8 +413,8 @@ policies:
     severity: error
     impersonation_escalation:
       forbidden_escalations:
-        - from_role_pattern: "roles/viewer"
-          to_role_pattern: "roles/owner"
+        - from_role_pattern: "^roles/viewer$"  # Exact match for roles/viewer
+          to_role_pattern: "^roles/owner$"     # Exact match for roles/owner
           via: impersonation
 ```
 
