@@ -9,7 +9,10 @@
           "resource_type": "google_storage_bucket_iam_member",
           "roles": [
             "roles/storage.objectViewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/storage.objectViewer": "google_storage_bucket_iam_member.backup_sa_storage"
+          }
         }
       ]
     },
@@ -21,7 +24,10 @@
           "resource_type": "google_bigquery_dataset_iam_member",
           "roles": [
             "roles/bigquery.dataViewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/bigquery.dataViewer": "google_bigquery_dataset_iam_member.alice_bq_viewer"
+          }
         }
       ]
     },
@@ -33,7 +39,10 @@
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountUser"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountUser": "google_service_account_iam_member.bob_sa_user"
+          }
         }
       ]
     },
@@ -45,7 +54,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.charlie_editor"
+          }
         }
       ]
     }

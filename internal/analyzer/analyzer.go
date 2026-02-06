@@ -13,8 +13,9 @@ type PrincipalData struct {
 
 // ResourceMetadata holds access details for a specific resource
 type ResourceMetadata struct {
-	Type  string
-	Roles map[string]bool
+	Type           string
+	Roles          map[string]bool
+	TerraformAddrs map[string]string // role -> terraform address
 }
 
 // Analyze processes IAM bindings and groups them by principal
@@ -33,11 +34,15 @@ func Analyze(bindings []parser.IAMBinding) map[string]*PrincipalData {
 			// 1. Direct Resource Access
 			if _, exists := results[member].ResourceAccess[binding.ResourceID]; !exists {
 				results[member].ResourceAccess[binding.ResourceID] = &ResourceMetadata{
-					Type:  binding.ResourceType,
-					Roles: make(map[string]bool),
+					Type:           binding.ResourceType,
+					Roles:          make(map[string]bool),
+					TerraformAddrs: make(map[string]string),
 				}
 			}
 			results[member].ResourceAccess[binding.ResourceID].Roles[binding.Role] = true
+			if binding.TerraformAddr != "" {
+				results[member].ResourceAccess[binding.ResourceID].TerraformAddrs[binding.Role] = binding.TerraformAddr
+			}
 
 			// 2. Hierarchical Access
 			// Check if this binding is on a project

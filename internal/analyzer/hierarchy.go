@@ -1,6 +1,7 @@
 package analyzer
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -149,7 +150,7 @@ func AnalyzeHierarchy(bindings []parser.IAMBinding) *HierarchyAnalysisResult {
 					Type:            "unknown_role",
 					Role:            binding.Role,
 					ResourceAddress: binding.TerraformAddr,
-					Message:         "Role not found in definitions, hierarchical access cannot be determined",
+					Message:         fmt.Sprintf("Role '%s' not found in definitions, hierarchical access cannot be determined", binding.Role),
 				})
 			}
 			continue
@@ -172,7 +173,7 @@ func AnalyzeHierarchy(bindings []parser.IAMBinding) *HierarchyAnalysisResult {
 				Type:      "unknown_hierarchy",
 				ScopeID:   binding.ResourceID,
 				ScopeType: binding.ResourceLevel,
-				Message:   "Parent hierarchy unknown, folder and org level bindings may also apply",
+				Message:   fmt.Sprintf("Hierarchy for %s '%s' is unknown, folder and org level bindings may also apply", binding.ResourceLevel, binding.ResourceID),
 			})
 		}
 

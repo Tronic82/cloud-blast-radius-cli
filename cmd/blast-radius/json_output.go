@@ -27,9 +27,10 @@ type PrincipalOutput struct {
 }
 
 type ResourceOutput struct {
-	ResourceID   string   `json:"resource_id"`
-	ResourceType string   `json:"resource_type"`
-	Roles        []string `json:"roles"`
+	ResourceID     string            `json:"resource_id"`
+	ResourceType   string            `json:"resource_type"`
+	Roles          []string          `json:"roles"`
+	TerraformAddrs map[string]string `json:"terraform_addresses,omitempty"`
 }
 
 // HierarchyOutput represents the JSON output for the hierarchy command
@@ -56,10 +57,11 @@ type AnalyzeOutput struct {
 }
 
 type TransitiveAccessOutput struct {
-	ResourceID   string   `json:"resource_id"`
-	ResourceType string   `json:"resource_type"`
-	Roles        []string `json:"roles"`
-	ViaChain     []string `json:"via_chain"`
+	ResourceID     string            `json:"resource_id"`
+	ResourceType   string            `json:"resource_type"`
+	Roles          []string          `json:"roles"`
+	ViaChain       []string          `json:"via_chain"`
+	TerraformAddrs map[string]string `json:"terraform_addresses,omitempty"`
 }
 
 // ValidateOutput represents the JSON output for the validate command
@@ -128,11 +130,23 @@ func ConvertToImpactOutput(results map[string]*analyzer.PrincipalData, isExclude
 			sort.Strings(roles)
 
 			if len(roles) > 0 {
-				pOut.Resources = append(pOut.Resources, ResourceOutput{
+				// Build terraform addresses map for included roles
+				tfAddrs := make(map[string]string)
+				for _, r := range roles {
+					if addr, ok := meta.TerraformAddrs[r]; ok && addr != "" {
+						tfAddrs[r] = addr
+					}
+				}
+
+				resOut := ResourceOutput{
 					ResourceID:   resID,
 					ResourceType: meta.Type,
 					Roles:        roles,
-				})
+				}
+				if len(tfAddrs) > 0 {
+					resOut.TerraformAddrs = tfAddrs
+				}
+				pOut.Resources = append(pOut.Resources, resOut)
 			}
 		}
 
@@ -218,11 +232,23 @@ func ConvertToAnalyzeOutput(account string, access *analyzer.TransitiveAccess) A
 			}
 			sort.Strings(roles)
 
-			out.DirectAccess = append(out.DirectAccess, ResourceOutput{
+			// Build terraform addresses map
+			tfAddrs := make(map[string]string)
+			for _, r := range roles {
+				if addr, ok := meta.TerraformAddrs[r]; ok && addr != "" {
+					tfAddrs[r] = addr
+				}
+			}
+
+			resOut := ResourceOutput{
 				ResourceID:   resID,
 				ResourceType: meta.Type,
 				Roles:        roles,
-			})
+			}
+			if len(tfAddrs) > 0 {
+				resOut.TerraformAddrs = tfAddrs
+			}
+			out.DirectAccess = append(out.DirectAccess, resOut)
 		}
 
 		// Hierarchical Access
@@ -264,12 +290,24 @@ func ConvertToAnalyzeOutput(account string, access *analyzer.TransitiveAccess) A
 			}
 			sort.Strings(roles)
 
-			out.TransitiveAccess = append(out.TransitiveAccess, TransitiveAccessOutput{
+			// Build terraform addresses map
+			tfAddrs := make(map[string]string)
+			for _, r := range roles {
+				if addr, ok := details.Resource.TerraformAddrs[r]; ok && addr != "" {
+					tfAddrs[r] = addr
+				}
+			}
+
+			transOut := TransitiveAccessOutput{
 				ResourceID:   resID,
 				ResourceType: details.Resource.Type,
 				Roles:        roles,
 				ViaChain:     details.ViaChain,
-			})
+			}
+			if len(tfAddrs) > 0 {
+				transOut.TerraformAddrs = tfAddrs
+			}
+			out.TransitiveAccess = append(out.TransitiveAccess, transOut)
 		}
 	}
 

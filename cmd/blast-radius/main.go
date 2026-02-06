@@ -13,8 +13,35 @@ import (
 	"github.com/Tronic82/cloud-blast-radius-cli/internal/parser"
 	"github.com/Tronic82/cloud-blast-radius-cli/internal/policy"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
+
+// Color definitions for output
+var (
+	headerColor       = color.New(color.Bold, color.FgCyan)
+	principalColor    = color.New(color.Bold, color.FgWhite)
+	accessRead        = color.New(color.FgGreen)
+	accessWrite       = color.New(color.FgYellow)
+	accessAdmin       = color.New(color.FgRed)
+	accessImpersonate = color.New(color.FgCyan)
+)
+
+// colorizeAccessType returns a colored string based on access type
+func colorizeAccessType(accessType string) string {
+	switch accessType {
+	case "read":
+		return accessRead.Sprint(accessType)
+	case "write":
+		return accessWrite.Sprint(accessType)
+	case "admin":
+		return accessAdmin.Sprint(accessType)
+	case "impersonate":
+		return accessImpersonate.Sprint(accessType)
+	default:
+		return accessType
+	}
+}
 
 var configPath string
 
@@ -141,7 +168,7 @@ func main() {
 			}
 
 			// Text Output
-			fmt.Println("\n--- Analysis Results ---")
+			_, _ = headerColor.Println("\n--- Analysis Results ---")
 
 			principals := make([]string, 0, len(results))
 			for p := range results {
@@ -151,7 +178,7 @@ func main() {
 
 			for _, principal := range principals {
 				data := results[principal]
-				fmt.Printf("\nPrincipal: %s\n", principal)
+				fmt.Printf("\n%s %s\n", principalColor.Sprint("Principal:"), principal)
 
 				// Collect valid resources
 				var validResources []string
@@ -259,7 +286,7 @@ func main() {
 			}
 
 			// Text output
-			fmt.Println("\n--- Hierarchical Access Report ---")
+			_, _ = headerColor.Println("\n--- Hierarchical Access Report ---")
 
 			if len(result.HierarchicalAccess) == 0 {
 				fmt.Println("\nNo hierarchical access detected.")
@@ -282,34 +309,36 @@ func main() {
 
 			for _, principal := range principals {
 				entries := byPrincipal[principal]
-				fmt.Printf("\nPrincipal: %s\n", principal)
-				fmt.Println("  Hierarchical Access:")
+				fmt.Printf("\n%s %s\n", principalColor.Sprint("Principal:"), principal)
+				_, _ = headerColor.Println("  Hierarchical Access:")
 
 				for _, entry := range entries {
 					displayName := entry.Grants.DisplayName
 					if displayName == "" {
 						displayName = "resources"
 					}
-					fmt.Printf("    - All %s in %s '%s' (%s access via %s)\n",
+					fmt.Printf("    - %s access to ALL %ss in %s '%s' via role %s assigned on %s level\n",
+						colorizeAccessType(entry.Grants.AccessType),
 						displayName,
 						entry.Scope.Type,
 						entry.Scope.ID,
-						entry.Grants.AccessType,
-						entry.Role)
+						entry.Role,
+						entry.Scope.Type,
+					)
 				}
 			}
 
 			// Print warnings
 			if len(result.Warnings) > 0 {
-				fmt.Println("\nWarnings:")
+				color.Yellow("\nWarnings:")
 				for _, w := range result.Warnings {
 					fmt.Printf("  - [%s] %s\n", w.Type, w.Message)
 				}
 			}
 
 			// Print summary
-			fmt.Printf("\nSummary: %d principals with hierarchical access across %d bindings\n",
-				len(principals), len(result.HierarchicalAccess))
+			fmt.Printf("\n%s %d principals with hierarchical access across %d bindings\n",
+				headerColor.Sprint("Summary:"), len(principals), len(result.HierarchicalAccess))
 		},
 	}
 	hierarchyCmd.Flags().StringVar(&tfvarsFile, "tfvars", "", "Path to terraform.tfvars file")
@@ -384,7 +413,7 @@ func main() {
 			impGraph := analyzer.BuildImpersonationGraphWithFunc(bindings, canImpersonate)
 
 			if outputFormat == "text" {
-				fmt.Println("\n--- Transitive Access Analysis ---")
+				_, _ = headerColor.Println("\n--- Transitive Access Analysis ---")
 			}
 
 			for _, accountEmail := range accountsToAnalyze {
@@ -396,17 +425,17 @@ func main() {
 					continue
 				}
 
-				fmt.Printf("\n=== Analyzing: %s ===\n", accountEmail)
+				_, _ = headerColor.Printf("\n=== Analyzing: %s ===\n", accountEmail)
 				if transitiveAccess == nil {
 					fmt.Printf("  No matching principal found for account: %s\n", accountEmail)
 					continue
 				}
 
-				fmt.Printf("\nPrincipal: %s\n", transitiveAccess.Principal)
+				fmt.Printf("\n%s %s\n", principalColor.Sprint("Principal:"), transitiveAccess.Principal)
 
 				// Direct Access
 				if len(transitiveAccess.DirectAccess.ResourceAccess) > 0 {
-					fmt.Println("\nDirect Access:")
+					_, _ = headerColor.Println("\nDirect Access:")
 					var resources []string
 					for resID := range transitiveAccess.DirectAccess.ResourceAccess {
 						resources = append(resources, resID)
@@ -428,12 +457,12 @@ func main() {
 						}
 					}
 				} else {
-					fmt.Println("\nDirect Access: None")
+					fmt.Printf("\n%s None\n", headerColor.Sprint("Direct Access:"))
 				}
 
 				// Hierarchical Access
 				if len(transitiveAccess.DirectAccess.HierarchicalAccess) > 0 {
-					fmt.Println("\nHierarchical Access:")
+					_, _ = headerColor.Println("\nHierarchical Access:")
 					var projects []string
 					for proj := range transitiveAccess.DirectAccess.HierarchicalAccess {
 						projects = append(projects, proj)
@@ -444,9 +473,9 @@ func main() {
 					}
 				}
 
-				// Transitive Access
+				// Effective Grants (via impersonation)
 				if len(transitiveAccess.TransitiveAccess) > 0 {
-					fmt.Println("\nTransitive Access (via impersonation):")
+					_, _ = headerColor.Println("\nEffective Grants (via impersonation):")
 					var resources []string
 					for resID := range transitiveAccess.TransitiveAccess {
 						resources = append(resources, resID)
@@ -464,12 +493,12 @@ func main() {
 						sort.Strings(roles)
 
 						for _, role := range roles {
-							fmt.Printf("      %s\n", role)
+							fmt.Printf("      %s %s\n", accessImpersonate.Sprint("[EFFECTIVE]"), role)
 						}
-						fmt.Printf("    → via: %s\n", strings.Join(accessVia.ViaChain, " → "))
+						fmt.Printf("    → via chain: %s\n", strings.Join(accessVia.ViaChain, " → "))
 					}
 				} else {
-					fmt.Println("\nTransitive Access: None")
+					fmt.Printf("\n%s None\n", headerColor.Sprint("Effective Grants (via impersonation):"))
 				}
 			}
 		},

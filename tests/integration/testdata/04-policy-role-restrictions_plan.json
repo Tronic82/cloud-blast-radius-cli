@@ -9,7 +9,10 @@
           "resource_type": "google_bigquery_dataset_iam_member",
           "roles": [
             "roles/bigquery.dataViewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/bigquery.dataViewer": "google_bigquery_dataset_iam_member.dev_bq_viewer"
+          }
         },
         {
           "resource_id": "production-project",
@@ -17,7 +20,11 @@
           "roles": [
             "roles/editor",
             "roles/viewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.dev_editor",
+            "roles/viewer": "google_project_iam_member.dev_viewer"
+          }
         }
       ]
     },
@@ -29,7 +36,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/owner"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/owner": "google_project_iam_member.platform_prod_owner"
+          }
         }
       ]
     },
@@ -41,7 +51,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/owner"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/owner": "google_project_iam_member.sa_owner"
+          }
         }
       ]
     },
@@ -53,7 +66,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/owner"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/owner": "google_project_iam_member.prod_owner"
+          }
         }
       ]
     }

@@ -45,17 +45,22 @@ hierarchical_roles:
 
   # Primitive Roles (affect all resources)
   "roles/viewer":
-    display_name: "All Resources"
+    display_name: "Resource"
+    resource_types: ["*"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/browser":
+    display_name: "Resource"
     resource_types: ["*"]
     target_level: "resource"
     access_level: "read"
   "roles/editor":
-    display_name: "All Resources"
+    display_name: "Resource"
     resource_types: ["*"]
     target_level: "resource"
     access_level: "write"
   "roles/owner":
-    display_name: "All Resources"
+    display_name: "Resource"
     resource_types: ["*"]
     target_level: "resource"
     access_level: "admin"
@@ -71,10 +76,561 @@ hierarchical_roles:
     resource_types: []
     target_level: "resource"
     access_level: "impersonate"
+  "roles/iam.workloadIdentityUser":
+    display_name: "Service Account"
+    resource_types: []
+    target_level: "resource"
+    access_level: "impersonate"
+
+  # Pub/Sub Roles
+  "roles/pubsub.viewer":
+    display_name: "Pub/Sub Topic & Subscription"
+    resource_types: ["google_pubsub_topic", "google_pubsub_subscription"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/pubsub.editor":
+    display_name: "Pub/Sub Topic & Subscription"
+    resource_types: ["google_pubsub_topic", "google_pubsub_subscription"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/pubsub.admin":
+    display_name: "Pub/Sub Topic & Subscription"
+    resource_types: ["google_pubsub_topic", "google_pubsub_subscription"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/pubsub.publisher":
+    display_name: "Pub/Sub Topic"
+    resource_types: ["google_pubsub_topic"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/pubsub.subscriber":
+    display_name: "Pub/Sub Subscription"
+    resource_types: ["google_pubsub_subscription"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Cloud KMS Roles
+  "roles/cloudkms.viewer":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_key_ring", "google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudkms.admin":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_key_ring", "google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/cloudkms.cryptoKeyEncrypter":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudkms.cryptoKeyDecrypter":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudkms.cryptoKeyEncrypterDecrypter":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudkms.signerVerifier":
+    display_name: "KMS Key"
+    resource_types: ["google_kms_crypto_key"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Compute Engine Roles
+  "roles/compute.viewer":
+    display_name: "Compute Resource"
+    resource_types: ["google_compute_instance", "google_compute_disk", "google_compute_network", "google_compute_subnetwork", "google_compute_firewall"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/compute.admin":
+    display_name: "Compute Resource"
+    resource_types: ["google_compute_instance", "google_compute_disk", "google_compute_network", "google_compute_subnetwork", "google_compute_firewall"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/compute.instanceAdmin":
+    display_name: "Compute Instance"
+    resource_types: ["google_compute_instance"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/compute.instanceAdmin.v1":
+    display_name: "Compute Instance"
+    resource_types: ["google_compute_instance"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/compute.networkAdmin":
+    display_name: "Compute Network"
+    resource_types: ["google_compute_network", "google_compute_subnetwork", "google_compute_firewall"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/compute.networkViewer":
+    display_name: "Compute Network"
+    resource_types: ["google_compute_network", "google_compute_subnetwork", "google_compute_firewall"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/compute.securityAdmin":
+    display_name: "Compute Security"
+    resource_types: ["google_compute_firewall", "google_compute_security_policy"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/compute.storageAdmin":
+    display_name: "Compute Disk"
+    resource_types: ["google_compute_disk", "google_compute_snapshot", "google_compute_image"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # Cloud Run Roles
+  "roles/run.viewer":
+    display_name: "Cloud Run Service"
+    resource_types: ["google_cloud_run_service", "google_cloud_run_v2_service", "google_cloud_run_v2_job"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/run.admin":
+    display_name: "Cloud Run Service"
+    resource_types: ["google_cloud_run_service", "google_cloud_run_v2_service", "google_cloud_run_v2_job"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/run.developer":
+    display_name: "Cloud Run Service"
+    resource_types: ["google_cloud_run_service", "google_cloud_run_v2_service", "google_cloud_run_v2_job"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/run.invoker":
+    display_name: "Cloud Run Service"
+    resource_types: ["google_cloud_run_service", "google_cloud_run_v2_service"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Cloud Functions Roles
+  "roles/cloudfunctions.viewer":
+    display_name: "Cloud Function"
+    resource_types: ["google_cloudfunctions_function", "google_cloudfunctions2_function"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudfunctions.admin":
+    display_name: "Cloud Function"
+    resource_types: ["google_cloudfunctions_function", "google_cloudfunctions2_function"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/cloudfunctions.developer":
+    display_name: "Cloud Function"
+    resource_types: ["google_cloudfunctions_function", "google_cloudfunctions2_function"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudfunctions.invoker":
+    display_name: "Cloud Function"
+    resource_types: ["google_cloudfunctions_function", "google_cloudfunctions2_function"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Secret Manager Roles
+  "roles/secretmanager.viewer":
+    display_name: "Secret"
+    resource_types: ["google_secret_manager_secret"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/secretmanager.admin":
+    display_name: "Secret"
+    resource_types: ["google_secret_manager_secret"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/secretmanager.secretAccessor":
+    display_name: "Secret"
+    resource_types: ["google_secret_manager_secret"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/secretmanager.secretVersionAdder":
+    display_name: "Secret"
+    resource_types: ["google_secret_manager_secret"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/secretmanager.secretVersionManager":
+    display_name: "Secret"
+    resource_types: ["google_secret_manager_secret"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Cloud SQL Roles
+  "roles/cloudsql.viewer":
+    display_name: "Cloud SQL Instance"
+    resource_types: ["google_sql_database_instance", "google_sql_database"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudsql.admin":
+    display_name: "Cloud SQL Instance"
+    resource_types: ["google_sql_database_instance", "google_sql_database"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/cloudsql.editor":
+    display_name: "Cloud SQL Instance"
+    resource_types: ["google_sql_database_instance", "google_sql_database"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudsql.client":
+    display_name: "Cloud SQL Instance"
+    resource_types: ["google_sql_database_instance"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudsql.instanceUser":
+    display_name: "Cloud SQL Instance"
+    resource_types: ["google_sql_database_instance"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Spanner Roles
+  "roles/spanner.viewer":
+    display_name: "Spanner Instance & Database"
+    resource_types: ["google_spanner_instance", "google_spanner_database"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/spanner.admin":
+    display_name: "Spanner Instance & Database"
+    resource_types: ["google_spanner_instance", "google_spanner_database"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/spanner.databaseAdmin":
+    display_name: "Spanner Database"
+    resource_types: ["google_spanner_database"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/spanner.databaseReader":
+    display_name: "Spanner Database"
+    resource_types: ["google_spanner_database"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/spanner.databaseUser":
+    display_name: "Spanner Database"
+    resource_types: ["google_spanner_database"]
+    target_level: "resource"
+    access_level: "write"
+
+  # GKE Roles
+  "roles/container.viewer":
+    display_name: "GKE Cluster"
+    resource_types: ["google_container_cluster", "google_container_node_pool"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/container.admin":
+    display_name: "GKE Cluster"
+    resource_types: ["google_container_cluster", "google_container_node_pool"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/container.clusterAdmin":
+    display_name: "GKE Cluster"
+    resource_types: ["google_container_cluster"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/container.clusterViewer":
+    display_name: "GKE Cluster"
+    resource_types: ["google_container_cluster"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/container.developer":
+    display_name: "GKE Cluster"
+    resource_types: ["google_container_cluster"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Artifact Registry Roles
+  "roles/artifactregistry.reader":
+    display_name: "Artifact Registry"
+    resource_types: ["google_artifact_registry_repository"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/artifactregistry.writer":
+    display_name: "Artifact Registry"
+    resource_types: ["google_artifact_registry_repository"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/artifactregistry.admin":
+    display_name: "Artifact Registry"
+    resource_types: ["google_artifact_registry_repository"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/artifactregistry.repoAdmin":
+    display_name: "Artifact Registry"
+    resource_types: ["google_artifact_registry_repository"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # Cloud Build Roles
+  "roles/cloudbuild.builds.viewer":
+    display_name: "Cloud Build"
+    resource_types: ["google_cloudbuild_trigger"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudbuild.builds.editor":
+    display_name: "Cloud Build"
+    resource_types: ["google_cloudbuild_trigger"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudbuild.builds.builder":
+    display_name: "Cloud Build"
+    resource_types: ["google_cloudbuild_trigger"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Logging Roles
+  "roles/logging.viewer":
+    display_name: "Logs"
+    resource_types: ["google_logging_project_sink", "google_logging_project_bucket_config"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/logging.admin":
+    display_name: "Logs"
+    resource_types: ["google_logging_project_sink", "google_logging_project_bucket_config"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/logging.logWriter":
+    display_name: "Logs"
+    resource_types: ["google_logging_project_sink"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/logging.privateLogViewer":
+    display_name: "Logs"
+    resource_types: ["google_logging_project_sink", "google_logging_project_bucket_config"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Monitoring Roles
+  "roles/monitoring.viewer":
+    display_name: "Monitoring"
+    resource_types: ["google_monitoring_alert_policy", "google_monitoring_notification_channel", "google_monitoring_dashboard"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/monitoring.admin":
+    display_name: "Monitoring"
+    resource_types: ["google_monitoring_alert_policy", "google_monitoring_notification_channel", "google_monitoring_dashboard"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/monitoring.editor":
+    display_name: "Monitoring"
+    resource_types: ["google_monitoring_alert_policy", "google_monitoring_notification_channel", "google_monitoring_dashboard"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/monitoring.metricWriter":
+    display_name: "Monitoring"
+    resource_types: []
+    target_level: "resource"
+    access_level: "write"
+
+  # Dataflow Roles
+  "roles/dataflow.viewer":
+    display_name: "Dataflow Job"
+    resource_types: ["google_dataflow_job", "google_dataflow_flex_template_job"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/dataflow.admin":
+    display_name: "Dataflow Job"
+    resource_types: ["google_dataflow_job", "google_dataflow_flex_template_job"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/dataflow.developer":
+    display_name: "Dataflow Job"
+    resource_types: ["google_dataflow_job", "google_dataflow_flex_template_job"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/dataflow.worker":
+    display_name: "Dataflow Job"
+    resource_types: ["google_dataflow_job", "google_dataflow_flex_template_job"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Dataproc Roles
+  "roles/dataproc.viewer":
+    display_name: "Dataproc Cluster"
+    resource_types: ["google_dataproc_cluster", "google_dataproc_job"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/dataproc.admin":
+    display_name: "Dataproc Cluster"
+    resource_types: ["google_dataproc_cluster", "google_dataproc_job"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/dataproc.editor":
+    display_name: "Dataproc Cluster"
+    resource_types: ["google_dataproc_cluster", "google_dataproc_job"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Firestore/Datastore Roles
+  "roles/datastore.viewer":
+    display_name: "Datastore/Firestore"
+    resource_types: ["google_firestore_database", "google_firestore_index"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/datastore.user":
+    display_name: "Datastore/Firestore"
+    resource_types: ["google_firestore_database", "google_firestore_index"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/datastore.owner":
+    display_name: "Datastore/Firestore"
+    resource_types: ["google_firestore_database", "google_firestore_index"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # Redis Roles
+  "roles/redis.viewer":
+    display_name: "Redis Instance"
+    resource_types: ["google_redis_instance"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/redis.admin":
+    display_name: "Redis Instance"
+    resource_types: ["google_redis_instance"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/redis.editor":
+    display_name: "Redis Instance"
+    resource_types: ["google_redis_instance"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Memorystore for Memcached
+  "roles/memcache.admin":
+    display_name: "Memcached Instance"
+    resource_types: ["google_memcache_instance"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/memcache.editor":
+    display_name: "Memcached Instance"
+    resource_types: ["google_memcache_instance"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Cloud Scheduler Roles
+  "roles/cloudscheduler.viewer":
+    display_name: "Cloud Scheduler Job"
+    resource_types: ["google_cloud_scheduler_job"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudscheduler.admin":
+    display_name: "Cloud Scheduler Job"
+    resource_types: ["google_cloud_scheduler_job"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/cloudscheduler.jobRunner":
+    display_name: "Cloud Scheduler Job"
+    resource_types: ["google_cloud_scheduler_job"]
+    target_level: "resource"
+    access_level: "write"
+
+  # Cloud Tasks Roles
+  "roles/cloudtasks.viewer":
+    display_name: "Cloud Tasks Queue"
+    resource_types: ["google_cloud_tasks_queue"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/cloudtasks.admin":
+    display_name: "Cloud Tasks Queue"
+    resource_types: ["google_cloud_tasks_queue"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/cloudtasks.enqueuer":
+    display_name: "Cloud Tasks Queue"
+    resource_types: ["google_cloud_tasks_queue"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/cloudtasks.taskRunner":
+    display_name: "Cloud Tasks Queue"
+    resource_types: ["google_cloud_tasks_queue"]
+    target_level: "resource"
+    access_level: "write"
+
+  # VPC/Networking Roles
+  "roles/servicenetworking.networksAdmin":
+    display_name: "VPC Network"
+    resource_types: ["google_compute_network", "google_compute_global_address", "google_service_networking_connection"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/vpcaccess.viewer":
+    display_name: "VPC Connector"
+    resource_types: ["google_vpc_access_connector"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/vpcaccess.admin":
+    display_name: "VPC Connector"
+    resource_types: ["google_vpc_access_connector"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # DNS Roles
+  "roles/dns.reader":
+    display_name: "DNS Zone"
+    resource_types: ["google_dns_managed_zone", "google_dns_record_set"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/dns.admin":
+    display_name: "DNS Zone"
+    resource_types: ["google_dns_managed_zone", "google_dns_record_set"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # Service Usage Roles
+  "roles/serviceusage.serviceUsageViewer":
+    display_name: "Service Usage"
+    resource_types: ["google_project_service"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/serviceusage.serviceUsageAdmin":
+    display_name: "Service Usage"
+    resource_types: ["google_project_service"]
+    target_level: "resource"
+    access_level: "admin"
+
+  # Workflows Roles
+  "roles/workflows.viewer":
+    display_name: "Workflow"
+    resource_types: ["google_workflows_workflow"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/workflows.admin":
+    display_name: "Workflow"
+    resource_types: ["google_workflows_workflow"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/workflows.editor":
+    display_name: "Workflow"
+    resource_types: ["google_workflows_workflow"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/workflows.invoker":
+    display_name: "Workflow"
+    resource_types: ["google_workflows_workflow"]
+    target_level: "resource"
+    access_level: "read"
+
+  # Eventarc Roles
+  "roles/eventarc.viewer":
+    display_name: "Eventarc Trigger"
+    resource_types: ["google_eventarc_trigger"]
+    target_level: "resource"
+    access_level: "read"
+  "roles/eventarc.admin":
+    display_name: "Eventarc Trigger"
+    resource_types: ["google_eventarc_trigger"]
+    target_level: "resource"
+    access_level: "admin"
+  "roles/eventarc.developer":
+    display_name: "Eventarc Trigger"
+    resource_types: ["google_eventarc_trigger"]
+    target_level: "resource"
+    access_level: "write"
+  "roles/eventarc.eventReceiver":
+    display_name: "Eventarc Trigger"
+    resource_types: ["google_eventarc_trigger"]
+    target_level: "resource"
+    access_level: "read"
 
 impersonation_roles:
   - "roles/iam.serviceAccountUser"
   - "roles/iam.serviceAccountTokenCreator"
+  - "roles/iam.workloadIdentityUser"
 
 impersonation_rules:
   - source: "serviceAccount"
