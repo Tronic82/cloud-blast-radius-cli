@@ -9,7 +9,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.sa_editor"
+          }
         }
       ]
     },
@@ -21,7 +24,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.sa_editor"
+          }
         }
       ]
     },
@@ -33,21 +39,30 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.env_deployer"
+          }
         },
         {
           "resource_id": "1-project",
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.env_deployer"
+          }
         },
         {
           "resource_id": "2-project",
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.env_deployer"
+          }
         }
       ]
     },
@@ -59,7 +74,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.sa_editor"
+          }
         }
       ]
     },
@@ -71,7 +89,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/viewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/viewer": "google_project_iam_member.dev_viewer"
+          }
         }
       ]
     },
@@ -83,7 +104,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/viewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/viewer": "google_project_iam_member.dev_viewer"
+          }
         }
       ]
     },
@@ -95,7 +119,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/viewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/viewer": "google_project_iam_member.dev_viewer"
+          }
         }
       ]
     }

@@ -9,14 +9,20 @@
           "resource_type": "google_storage_bucket_iam_member",
           "roles": [
             "roles/storage.admin"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/storage.admin": "google_storage_bucket_iam_member.admin_sa_storage_admin"
+          }
         },
         {
           "resource_id": "sensitive-customer-data",
           "resource_type": "google_bigquery_dataset_iam_member",
           "roles": [
             "roles/bigquery.admin"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/bigquery.admin": "google_bigquery_dataset_iam_member.admin_sa_bq_admin"
+          }
         }
       ]
     },
@@ -28,7 +34,10 @@
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountTokenCreator"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountTokenCreator": "google_service_account_iam_member.deploy_impersonate_admin"
+          }
         }
       ]
     },
@@ -40,14 +49,20 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/viewer"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/viewer": "google_project_iam_member.dev_sa_viewer"
+          }
         },
         {
           "resource_id": "projects/my-project/serviceAccounts/prod-sa@project.iam.gserviceaccount.com",
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountTokenCreator"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountTokenCreator": "google_service_account_iam_member.dev_can_impersonate_prod"
+          }
         }
       ]
     },
@@ -59,7 +74,10 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/owner"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/owner": "google_project_iam_member.prod_sa_owner"
+          }
         }
       ]
     },
@@ -71,7 +89,10 @@
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountTokenCreator"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountTokenCreator": "google_service_account_iam_member.a_impersonate_b"
+          }
         }
       ]
     },
@@ -83,7 +104,10 @@
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountTokenCreator"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountTokenCreator": "google_service_account_iam_member.b_impersonate_c"
+          }
         }
       ]
     },
@@ -95,14 +119,20 @@
           "resource_type": "google_project_iam_member",
           "roles": [
             "roles/editor"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/editor": "google_project_iam_member.sa_c_editor"
+          }
         },
         {
           "resource_id": "projects/my-project/serviceAccounts/sa-a@project.iam.gserviceaccount.com",
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountTokenCreator"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountTokenCreator": "google_service_account_iam_member.c_impersonate_a"
+          }
         }
       ]
     },
@@ -114,7 +144,10 @@
           "resource_type": "google_service_account_iam_member",
           "roles": [
             "roles/iam.serviceAccountUser"
-          ]
+          ],
+          "terraform_addresses": {
+            "roles/iam.serviceAccountUser": "google_service_account_iam_member.alice_impersonate_deploy"
+          }
         }
       ]
     }

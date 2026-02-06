@@ -138,7 +138,7 @@
   "version": "1.0",
   "warnings": [
     {
-      "message": "Parent hierarchy unknown, folder and org level bindings may also apply",
+      "message": "Hierarchy for project 'production-project' is unknown, folder and org level bindings may also apply",
       "scope_id": "production-project",
       "scope_type": "project",
       "type": "unknown_hierarchy"
