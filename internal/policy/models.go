@@ -46,7 +46,7 @@ const (
 // RoleRestrictionPolicy restricts which roles principals can have
 type RoleRestrictionPolicy struct {
 	Selector     PrincipalSelector `yaml:"selector"`
-	AllowedRoles []string          `yaml:"allowed_roles"`
+	AllowedRoles *[]string         `yaml:"allowed_roles"` // Pointer to distinguish nil (not set) from empty (no roles allowed)
 	DeniedRoles  []string          `yaml:"denied_roles"`
 }
 

@@ -16,7 +16,10 @@ func (v *PolicyValidator) validatePersona(policy *Policy) []Violation {
 		return violations
 	}
 
-	for _, principal := range persona.Principals {
+	// Expand principal patterns to actual principals
+	matchedPrincipals := v.expandPrincipalPatterns(persona.Principals)
+
+	for _, principal := range matchedPrincipals {
 		// Validate required bindings
 		reqViolations := v.checkRequiredBindings(principal, persona)
 		violations = append(violations, reqViolations...)
@@ -37,6 +40,34 @@ func (v *PolicyValidator) validatePersona(policy *Policy) []Violation {
 	}
 
 	return violations
+}
+
+// expandPrincipalPatterns expands glob patterns to matching principals from directAccess
+func (v *PolicyValidator) expandPrincipalPatterns(patterns []string) []string {
+	matched := make(map[string]bool)
+
+	for _, pattern := range patterns {
+		// Check if pattern contains glob characters
+		if strings.Contains(pattern, "*") || strings.Contains(pattern, "?") {
+			// It's a pattern - find all matching principals
+			for principal := range v.directAccess {
+				if MatchesPrincipalPattern(principal, pattern) {
+					matched[principal] = true
+				}
+			}
+		} else {
+			// It's a literal principal
+			matched[pattern] = true
+		}
+	}
+
+	// Convert map to slice
+	result := make([]string, 0, len(matched))
+	for principal := range matched {
+		result = append(result, principal)
+	}
+
+	return result
 }
 
 // checkRequiredBindings verifies all required bindings exist
@@ -279,6 +310,30 @@ func (v *PolicyValidator) validateImpersonationEscalation(policy *Policy) []Viol
 										Remediation:        "Remove impersonation permission in chain",
 									})
 								}
+							}
+						}
+					}
+				}
+			}
+
+			// Check principal-to-role escalation (principal pattern + role pattern)
+			if rule.FromPrincipalPattern != "" && rule.ToRolePattern != "" && rule.ToResourcePattern == "" {
+				if MatchesPrincipalPattern(principal, rule.FromPrincipalPattern) {
+					// Check if they can get to forbidden role via impersonation
+					for resourceID, accessVia := range transitiveAccess.TransitiveAccess {
+						for transitiveRole := range accessVia.Resource.Roles {
+							if MatchesRolePattern(transitiveRole, rule.ToRolePattern) {
+								violations = append(violations, Violation{
+									PolicyName:         policy.Name,
+									ViolationType:      ViolationTypePrivilegeEscalation,
+									Severity:           policy.Severity,
+									Principal:          principal,
+									Resource:           resourceID,
+									Role:               transitiveRole,
+									ImpersonationChain: accessVia.ViaChain,
+									Message:            fmt.Sprintf("Principal %s can escalate to %s via impersonation", principal, transitiveRole),
+									Remediation:        "Remove impersonation permission in chain",
+								})
 							}
 						}
 					}
