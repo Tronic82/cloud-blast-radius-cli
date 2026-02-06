@@ -1,56 +1,47 @@
 package policy
 
 import (
-	"path/filepath"
+	"regexp"
 	"strings"
 )
 
-// MatchesPrincipalPattern checks if a principal matches a pattern
-func MatchesPrincipalPattern(principal, pattern string) bool {
+// matchPattern checks if a value matches a pattern using regex
+// Patterns:
+//   - "*" matches everything
+//   - Regex patterns like "^user:.*" or "roles/storage\..*"
+//   - Exact match as fallback if regex is invalid
+func matchPattern(value, pattern string) bool {
+	// Special case: "*" matches everything
 	if pattern == "*" {
 		return true
 	}
 
-	// Try glob matching
-	matched, err := filepath.Match(pattern, principal)
-	if err == nil && matched {
-		return true
+	// Try regex matching
+	re, err := regexp.Compile(pattern)
+	if err != nil {
+		// Invalid regex, fall back to exact match
+		return value == pattern
 	}
 
-	// Try exact match
-	return principal == pattern
+	return re.MatchString(value)
+}
+
+// MatchesPrincipalPattern checks if a principal matches a pattern
+// Supports regex patterns like "^user:.*" or "^serviceAccount:.*@.*\.iam\.gserviceaccount\.com$"
+func MatchesPrincipalPattern(principal, pattern string) bool {
+	return matchPattern(principal, pattern)
 }
 
 // MatchesResourcePattern checks if a resource ID matches a pattern
+// Supports regex patterns like "^prod-.*" or ".*-bucket$"
 func MatchesResourcePattern(resourceID, pattern string) bool {
-	if pattern == "*" {
-		return true
-	}
-
-	// Try glob matching
-	matched, err := filepath.Match(pattern, resourceID)
-	if err == nil && matched {
-		return true
-	}
-
-	// Try exact match
-	return resourceID == pattern
+	return matchPattern(resourceID, pattern)
 }
 
 // MatchesRolePattern checks if a role matches a pattern
+// Supports regex patterns like "^roles/storage\..*" or "roles/bigquery\.(dataViewer|dataEditor)"
 func MatchesRolePattern(role, pattern string) bool {
-	if pattern == "*" {
-		return true
-	}
-
-	// Try glob matching
-	matched, err := filepath.Match(pattern, role)
-	if err == nil && matched {
-		return true
-	}
-
-	// Try exact match
-	return role == pattern
+	return matchPattern(role, pattern)
 }
 
 // ExtractPrincipalEmail extracts email from principal string
