@@ -6,7 +6,7 @@ policies:
     type: role_restriction
     role_restriction:
       selector:
-        principal_pattern: "group:developers@*"
+        principal_pattern: "^group:developers@.*"  # Regex: starts with group:developers@
       allowed_roles:
         - "roles/viewer"
         - "roles/bigquery.dataViewer"
@@ -20,16 +20,10 @@ policies:
     type: role_restriction
     role_restriction:
       selector:
-        principal_pattern: "serviceAccount:*-sa@*"
+        principal_pattern: "^serviceAccount:.*-sa@.*"  # Regex: service accounts ending in -sa
       denied_roles:
         - "roles/owner"  # Service accounts should never be owners
 
-  - name: "Production Owner Restrictions"
-    type: role_restriction
-    role_restriction:
-      selector:
-        resource_pattern: "prod-*"
-      denied_roles:
-        - "roles/owner"  # No one should be owner on prod resources
-      allowed_principals:
-        - "group:platform-team@example.com"  # Except platform team
+  # Note: To exempt certain principals from role restrictions, use a more
+  # specific principal_pattern or use a resource_access policy instead.
+  # The role_restriction policy type does not support allowed_principals.
