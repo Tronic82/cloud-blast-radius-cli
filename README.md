@@ -51,11 +51,11 @@ blast-radius validate --policy policy.yaml ./terraform
 
 | Command | Description | Documentation |
 |---------|-------------|---------------|
-| [`init`](init.md) | Create default configuration file | [init.md](init.md) |
-| [`impact`](impact.md) | Calculate blast radius of IAM principals | [impact.md](impact.md) |
-| [`hierarchy`](hierarchy.md) | Analyze hierarchical access inheritance | [hierarchy.md](hierarchy.md) |
-| [`analyze`](analyze.md) | Trace impersonation chains for accounts | [analyze.md](analyze.md) |
-| [`validate`](validate.md) | Validate IAM against policies | [validate.md](validate.md) |
+| [`init`](docs/init.md) | Create default configuration file | [init.md](docs/init.md) |
+| [`impact`](docs/impact.md) | Calculate blast radius of IAM principals | [impact.md](docs/impact.md) |
+| [`hierarchy`](docs/hierarchy.md) | Analyze hierarchical access inheritance | [hierarchy.md](docs/hierarchy.md) |
+| [`analyze`](docs/analyze.md) | Trace impersonation chains for accounts | [analyze.md](docs/analyze.md) |
+| [`validate`](docs/validate.md) | Validate IAM against policies | [validate.md](docs/validate.md) |
 
 ## Global Flags
 
