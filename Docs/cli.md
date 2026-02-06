@@ -1,32 +1,6 @@
-# Blast Radius
+# Blast Radius CLI Documentation
 
-[![CI](https://github.com/Tronic82/cloud-blast-radius-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/Tronic82/cloud-blast-radius-cli/actions/workflows/ci.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Tronic82/cloud-blast-radius-cli)](https://goreportcard.com/report/github.com/Tronic82/cloud-blast-radius-cli)
-[![Release](https://img.shields.io/github/v/release/Tronic82/cloud-blast-radius-cli?style=flat-square)](https://github.com/Tronic82/cloud-blast-radius-cli/releases)
-
-**Blast Radius** is an open-source IAM permissions analyzer for Terraform. It helps you understand who has access to what resources in your cloud environment, identify potential security risks, and detect hidden access paths through service account impersonation.
-
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
-
-## Key Features
-
-- **Impact Analysis**: Map direct access from principals to resources.
-- **Hierarchical Analysis**: Identify project-level roles that grant broad access.
-- **Impersonation Analysis**: Trace transitive access through service account impersonation chains.
-- **Policy Validation**: Enforce custom IAM policies (e.g., role restrictions, separation of duties).
-- **Standalone**: Runs entirely locally. No API keys or external servers required.
-
-## Installation
-
-### From Source
-
-```bash
-git clone https://github.com/Tronic82/cloud-blast-radius-cli.git
-cd cloud-blast-radius-cli
-go build -o blast-radius ./cmd/blast-radius
-```
+Blast Radius is a CLI tool for analyzing the impact of IAM changes in Terraform configurations for Google Cloud Platform (GCP).
 
 ## Quick Start
 
@@ -230,16 +204,3 @@ See the `examples/` directory in the repository for complete working examples:
 - `04-policy-role-restrictions/` - Policy validation
 - `05-dynamic-blocks/` - Dynamic Terraform blocks
 - `06-variable-resolution/` - Variable handling
-
-## Documentation
-
-See the [USER_GUIDE.md](USER_GUIDE.md) and [Docs](Docs) folder for detailed usage instructions and examples.
-
-## License
-
-Distributed under the Apache 2.0 License. See `LICENSE` for more information.
-Copyright 2024-present [Wellington Junior Chirigo](https://github.com/Tronic82)
-
-## Contributor License Agreement
-
-We require all contributors to sign a Contributor License Agreement (CLA). This will be handled automatically by a bot when you open a Pull Request. See [CLA.md](CLA.md) for more details.
