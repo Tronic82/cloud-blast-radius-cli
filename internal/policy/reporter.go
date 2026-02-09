@@ -107,17 +107,8 @@ func GenerateReport(report *ValidationReport) string {
 func FormatViolation(v *Violation) string {
 	var output strings.Builder
 
-	// Icon based on severity
-	icon := "❌"
-	switch v.Severity {
-	case SeverityWarning:
-		icon = "⚠️ "
-	case SeverityInfo:
-		icon = "ℹ️ "
-	}
-
 	// Header
-	output.WriteString(fmt.Sprintf("%s %s: %s\n", icon, strings.ToUpper(string(v.Severity)), v.PolicyName))
+	output.WriteString(fmt.Sprintf("%s: %s\n", strings.ToUpper(string(v.Severity)), v.PolicyName))
 	output.WriteString(fmt.Sprintf("   Violation: %s\n", formatViolationType(v.ViolationType)))
 	output.WriteString("\n")
 
