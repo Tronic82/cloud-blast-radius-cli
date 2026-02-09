@@ -139,9 +139,6 @@ func main() {
 				fmt.Printf("Error loading resource definitions: %v\n", err)
 				os.Exit(1)
 			}
-			if outputFormat == "text" {
-				fmt.Printf("Loaded %d resource definitions\n", len(defs))
-			}
 
 			// Parse Terraform files or plan
 			var bindings []parser.IAMBinding

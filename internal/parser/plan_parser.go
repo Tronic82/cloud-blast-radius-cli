@@ -76,13 +76,13 @@ func extractBindingsFromModule(module Module, defMap map[string]ResourceDefiniti
 		}
 
 		// Extract binding from this resource
-		binding, err := extractBindingFromResource(resource, def)
+		bindingsFromResource, err := extractBindingFromResource(resource, def)
 		if err != nil {
 			fmt.Printf("Warning: failed to extract binding from %s: %v\n", resource.Address, err)
 			continue
 		}
 
-		bindings = append(bindings, binding)
+		bindings = append(bindings, bindingsFromResource...)
 	}
 
 	// Process child modules recursively
@@ -94,19 +94,92 @@ func extractBindingsFromModule(module Module, defMap map[string]ResourceDefiniti
 }
 
 // extractBindingFromResource extracts an IAMBinding from a Terraform resource
-func extractBindingFromResource(resource Resource, def ResourceDefinition) (IAMBinding, error) {
-	binding := IAMBinding{
-		ResourceType:  resource.Type,
-		TerraformAddr: resource.Address,
-	}
-
+func extractBindingFromResource(resource Resource, def ResourceDefinition) ([]IAMBinding, error) {
+	// Common fields extraction
+	resourceID := ""
 	// Extract ResourceID
 	if def.FieldMappings.ResourceID != "" {
 		if val, ok := resource.Values[def.FieldMappings.ResourceID]; ok {
 			if strVal, ok := val.(string); ok {
-				binding.ResourceID = strVal
+				resourceID = strVal
 			}
 		}
+	}
+
+	// Extract Parent ID
+	parentID := ""
+	if def.FieldMappings.Parent != "" {
+		if val, ok := resource.Values[def.FieldMappings.Parent]; ok {
+			if strVal, ok := val.(string); ok {
+				parentID = strVal
+			}
+		}
+	}
+
+	resourceLevel := def.ResourceLevel
+	if resourceLevel == "" {
+		resourceLevel = "resource"
+	}
+
+	// Determine parent type based on resource level
+	var parentType string
+	switch resourceLevel {
+	case "folder":
+		parentType = "organization"
+	case "project":
+		if parentID != "" {
+			parentType = "folder"
+		}
+	case "resource":
+		parentType = "project"
+	}
+
+	// --- Check for Policy Data ---
+	if def.FieldMappings.PolicyData != "" {
+		if val, ok := resource.Values[def.FieldMappings.PolicyData]; ok {
+			if policyDataJSON, ok := val.(string); ok {
+				// Unmarshal Policy Data
+				type PolicyBinding struct {
+					Role    string   `json:"role"`
+					Members []string `json:"members"`
+				}
+				type Policy struct {
+					Bindings []PolicyBinding `json:"bindings"`
+				}
+
+				var policy Policy
+				if err := json.Unmarshal([]byte(policyDataJSON), &policy); err != nil {
+					return nil, fmt.Errorf("failed to parse policy_data JSON: %w", err)
+				}
+
+				var bindings []IAMBinding
+				for _, pb := range policy.Bindings {
+					b := IAMBinding{
+						ResourceID:    resourceID,
+						ResourceType:  resource.Type,
+						ResourceLevel: resourceLevel,
+						Role:          pb.Role,
+						Members:       pb.Members,
+						ParentID:      parentID,
+						ParentType:    parentType,
+						TerraformAddr: resource.Address,
+					}
+					bindings = append(bindings, b)
+				}
+				return bindings, nil
+			}
+		}
+	}
+
+	// --- Standard IAM Binding/Member ---
+
+	binding := IAMBinding{
+		ResourceType:  resource.Type,
+		TerraformAddr: resource.Address,
+		ResourceID:    resourceID,
+		ResourceLevel: resourceLevel,
+		ParentID:      parentID,
+		ParentType:    parentType,
 	}
 
 	// Extract Role
@@ -140,43 +213,16 @@ func extractBindingFromResource(resource Resource, def ResourceDefinition) (IAMB
 		}
 	}
 
-	// Set ResourceLevel from definition (defaults to "resource" if not set)
-	binding.ResourceLevel = def.ResourceLevel
-	if binding.ResourceLevel == "" {
-		binding.ResourceLevel = "resource"
-	}
-
-	// Extract parent ID if defined
-	if def.FieldMappings.Parent != "" {
-		if val, ok := resource.Values[def.FieldMappings.Parent]; ok {
-			if strVal, ok := val.(string); ok {
-				binding.ParentID = strVal
-			}
-		}
-	}
-
-	// Determine parent type based on resource level
-	switch binding.ResourceLevel {
-	case "folder":
-		binding.ParentType = "organization"
-	case "project":
-		if binding.ParentID != "" {
-			binding.ParentType = "folder"
-		}
-	case "resource":
-		binding.ParentType = "project"
-	}
-
 	// Validation
 	if binding.ResourceID == "" {
-		return binding, fmt.Errorf("missing resource ID")
+		return nil, fmt.Errorf("missing resource ID: %s", resource.Address)
 	}
 	if binding.Role == "" {
-		return binding, fmt.Errorf("missing role")
+		return nil, fmt.Errorf("missing role: %s", resource.Address)
 	}
 	if len(binding.Members) == 0 {
-		return binding, fmt.Errorf("no members found")
+		return nil, fmt.Errorf("no members found: %s", resource.Address)
 	}
 
-	return binding, nil
+	return []IAMBinding{binding}, nil
 }
