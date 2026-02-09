@@ -15,4 +15,5 @@ type FieldMapping struct {
 	Member     string `yaml:"member"`      // e.g. "member"
 	Members    string `yaml:"members"`     // e.g. "members"
 	Parent     string `yaml:"parent"`      // e.g. "folder_id", "org_id" - parent resource reference
+	PolicyData string `yaml:"policy_data"` // e.g. "policy_data" - for iam_policy resources
 }
