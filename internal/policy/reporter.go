@@ -57,7 +57,7 @@ func GenerateReport(report *ValidationReport) string {
 	// Output compliant policies
 	if len(report.CompliantPolicies) > 0 {
 		for _, name := range report.CompliantPolicies {
-			output.WriteString(fmt.Sprintf("✅ COMPLIANT: %s\n", name))
+			output.WriteString(fmt.Sprintf("COMPLIANT: %s\n", name))
 		}
 		output.WriteString("\n")
 	}
@@ -87,10 +87,10 @@ func GenerateReport(report *ValidationReport) string {
 	output.WriteString("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n")
 
 	if report.TotalViolations == 0 {
-		output.WriteString("Status: PASSED ✅\n")
+		output.WriteString("Status: PASSED\n")
 		output.WriteString("All policies compliant!\n")
 	} else {
-		output.WriteString("Status: FAILED ❌\n")
+		output.WriteString("Status: FAILED\n")
 		if report.ErrorCount > 0 {
 			output.WriteString(fmt.Sprintf("Errors: %d\n", report.ErrorCount))
 		}
