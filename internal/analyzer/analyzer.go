@@ -24,6 +24,7 @@ func Analyze(bindings []parser.IAMBinding) map[string]*PrincipalData {
 
 	for _, binding := range bindings {
 		for _, member := range binding.Members {
+			// Ensure principal exists in results
 			if _, exists := results[member]; !exists {
 				results[member] = &PrincipalData{
 					ResourceAccess:     make(map[string]*ResourceMetadata),
@@ -31,37 +32,45 @@ func Analyze(bindings []parser.IAMBinding) map[string]*PrincipalData {
 				}
 			}
 
-			// 1. Direct Resource Access
-			if _, exists := results[member].ResourceAccess[binding.ResourceID]; !exists {
-				results[member].ResourceAccess[binding.ResourceID] = &ResourceMetadata{
-					Type:           binding.ResourceType,
-					Roles:          make(map[string]bool),
-					TerraformAddrs: make(map[string]string),
-				}
-			}
-			results[member].ResourceAccess[binding.ResourceID].Roles[binding.Role] = true
-			if binding.TerraformAddr != "" {
-				results[member].ResourceAccess[binding.ResourceID].TerraformAddrs[binding.Role] = binding.TerraformAddr
-			}
+			// Process Direct Access
+			processDirectAccess(results[member], binding)
 
-			// 2. Hierarchical Access
-			// Check if this binding is on a project
-			if binding.ResourceType == "google_project_iam_member" || binding.ResourceType == "google_project_iam_binding" {
-				projectID := binding.ResourceID
-
-				// Check if the role grants access to resources of this type
-				// We look up the hierarchy for the role
-				resourceTypes := definitions.GetResourceTypesForRole(binding.Role)
-
-				for _, rt := range resourceTypes {
-					if _, exists := results[member].HierarchicalAccess[projectID]; !exists {
-						results[member].HierarchicalAccess[projectID] = make(map[string]bool)
-					}
-					results[member].HierarchicalAccess[projectID][rt] = true
-				}
-			}
+			// Process Hierarchical Access
+			processHierarchicalAccess(results[member], binding)
 		}
 	}
 
 	return results
+}
+
+func processDirectAccess(data *PrincipalData, binding parser.IAMBinding) {
+	if _, exists := data.ResourceAccess[binding.ResourceID]; !exists {
+		data.ResourceAccess[binding.ResourceID] = &ResourceMetadata{
+			Type:           binding.ResourceType,
+			Roles:          make(map[string]bool),
+			TerraformAddrs: make(map[string]string),
+		}
+	}
+	data.ResourceAccess[binding.ResourceID].Roles[binding.Role] = true
+	if binding.TerraformAddr != "" {
+		data.ResourceAccess[binding.ResourceID].TerraformAddrs[binding.Role] = binding.TerraformAddr
+	}
+}
+
+func processHierarchicalAccess(data *PrincipalData, binding parser.IAMBinding) {
+	// Check if this binding is on a project
+	if binding.ResourceType == "google_project_iam_member" || binding.ResourceType == "google_project_iam_binding" {
+		projectID := binding.ResourceID
+
+		// Check if the role grants access to resources of this type
+		// We look up the hierarchy for the role
+		resourceTypes := definitions.GetResourceTypesForRole(binding.Role)
+
+		for _, rt := range resourceTypes {
+			if _, exists := data.HierarchicalAccess[projectID]; !exists {
+				data.HierarchicalAccess[projectID] = make(map[string]bool)
+			}
+			data.HierarchicalAccess[projectID][rt] = true
+		}
+	}
 }
