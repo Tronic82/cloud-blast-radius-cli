@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -145,12 +146,12 @@ func ParseDir(dir string, tfvarsPath string, definitions []ResourceDefinition, i
 							bindings = append(bindings, expanded...)
 						} else {
 							// No loop - single resource
-							b, err := extractIAMResource(block, def, traverser, defaultProject)
+							bindingsFromResource, err := extractIAMResource(block, def, traverser, defaultProject)
 							if err != nil {
 								// fmt.Printf("Error extracting %s in %s: %v\n", resourceType, fileNames[i], err)
 								continue
 							}
-							bindings = append(bindings, b)
+							bindings = append(bindings, bindingsFromResource...)
 						}
 						break // Matched definition
 					}
@@ -196,13 +197,13 @@ func expandForEach(block *hcl.Block, def ResourceDefinition, traverser *ConfigTr
 		scopedTraverser := traverser.WithScope(scopedCtx)
 
 		// Extract binding with scoped context
-		binding, err := extractIAMResource(block, def, scopedTraverser, defaultProject)
+		bindingsFromResource, err := extractIAMResource(block, def, scopedTraverser, defaultProject)
 		if err != nil {
 			// Skip this iteration if extraction fails
 			continue
 		}
 
-		bindings = append(bindings, binding)
+		bindings = append(bindings, bindingsFromResource...)
 	}
 
 	return bindings, nil
@@ -242,25 +243,32 @@ func expandCount(block *hcl.Block, def ResourceDefinition, traverser *ConfigTrav
 		scopedTraverser := traverser.WithScope(scopedCtx)
 
 		// Extract binding with scoped context
-		binding, err := extractIAMResource(block, def, scopedTraverser, defaultProject)
+		bindingsFromResource, err := extractIAMResource(block, def, scopedTraverser, defaultProject)
 		if err != nil {
 			// Skip this iteration if extraction fails
 			continue
 		}
 
-		bindings = append(bindings, binding)
+		bindings = append(bindings, bindingsFromResource...)
 	}
 
 	return bindings, nil
 }
 
-func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *ConfigTraverser, defaultProject string) (IAMBinding, error) {
+func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *ConfigTraverser, defaultProject string) ([]IAMBinding, error) {
 	attrs, diags := block.Body.JustAttributes()
 	if diags.HasErrors() {
-		return IAMBinding{}, diags
+		return nil, diags
 	}
 
-	binding := IAMBinding{}
+	// Common fields extraction
+	resourceID := defaultProject
+	parentID := ""
+	parentType := ""
+	terraformAddr := ""
+	if len(block.Labels) >= 2 {
+		terraformAddr = fmt.Sprintf("%s.%s", block.Labels[0], block.Labels[1])
+	}
 
 	// Helper to get string value resolved
 	getString := func(attrName string) string {
@@ -273,36 +281,81 @@ func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *Con
 		return ""
 	}
 
-	// Helper to get list of strings resolved
-	getList := func(attrName string) []string {
-		if attr, ok := attrs[attrName]; ok {
-			val, err := traverser.ResolveExpression(attr.Expr)
-			if err == nil {
-				if val.Type().IsTupleType() || val.Type().IsListType() {
-					it := val.ElementIterator()
-					var list []string
-					for it.Next() {
-						_, v := it.Element()
-						if v.Type() == cty.String {
-							list = append(list, v.AsString())
-						}
-					}
-					return list
-				}
-			}
-		}
-		return nil
-	}
-
-	// Map fields
-	// ResourceID
+	// Extract Resource ID
 	if hclName := def.FieldMappings.ResourceID; hclName != "" {
-		binding.ResourceID = getString(hclName)
+		if val := getString(hclName); val != "" {
+			resourceID = val
+		}
 	}
 
-	// Fallback if empty
-	if binding.ResourceID == "" {
-		binding.ResourceID = defaultProject
+	// Parent ID
+	if hclName := def.FieldMappings.Parent; hclName != "" {
+		parentID = getString(hclName)
+	}
+
+	// Resource Type & Level
+	resourceType := def.Type
+	resourceLevel := def.ResourceLevel
+	if resourceLevel == "" {
+		resourceLevel = "resource"
+	}
+
+	// Determine parent type
+	switch resourceLevel {
+	case "folder":
+		parentType = "organization"
+	case "project":
+		if parentID != "" {
+			parentType = "folder"
+		}
+	case "resource":
+		parentType = "project"
+	}
+
+	// --- Check for Policy Data ---
+	if hclName := def.FieldMappings.PolicyData; hclName != "" {
+		policyDataJSON := getString(hclName)
+		if policyDataJSON != "" {
+			// Unmarshal Policy Data
+			type PolicyBinding struct {
+				Role    string   `json:"role"`
+				Members []string `json:"members"`
+			}
+			type Policy struct {
+				Bindings []PolicyBinding `json:"bindings"`
+			}
+
+			var policy Policy
+			if err := json.Unmarshal([]byte(policyDataJSON), &policy); err != nil {
+				return nil, fmt.Errorf("failed to parse policy_data JSON: %w", err)
+			}
+
+			var bindings []IAMBinding
+			for _, pb := range policy.Bindings {
+				b := IAMBinding{
+					ResourceID:    resourceID,
+					ResourceType:  resourceType,
+					ResourceLevel: resourceLevel,
+					Role:          pb.Role,
+					Members:       pb.Members,
+					ParentID:      parentID,
+					ParentType:    parentType,
+					TerraformAddr: terraformAddr,
+				}
+				bindings = append(bindings, b)
+			}
+			return bindings, nil
+		}
+	}
+
+	// --- Standard IAM Binding/Member ---
+	binding := IAMBinding{
+		ResourceID:    resourceID,
+		ResourceType:  resourceType,
+		ResourceLevel: resourceLevel,
+		ParentID:      parentID,
+		ParentType:    parentType,
+		TerraformAddr: terraformAddr,
 	}
 
 	// Role
@@ -318,47 +371,26 @@ func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *Con
 	}
 	// Members
 	if hclName := def.FieldMappings.Members; hclName != "" {
-		m := getList(hclName)
-		if len(m) > 0 {
-			binding.Members = append(binding.Members, m...)
+		if attr, ok := attrs[hclName]; ok {
+			val, err := traverser.ResolveExpression(attr.Expr)
+			if err == nil {
+				if val.Type().IsTupleType() || val.Type().IsListType() {
+					it := val.ElementIterator()
+					for it.Next() {
+						_, v := it.Element()
+						if v.Type() == cty.String {
+							binding.Members = append(binding.Members, v.AsString())
+						}
+					}
+				}
+			}
 		}
 	}
 
-	// Infer ResourceType from definition Type (simple heuristic)
-	binding.ResourceType = def.Type
-
-	// Set ResourceLevel from definition (defaults to "resource" if not set)
-	binding.ResourceLevel = def.ResourceLevel
-	if binding.ResourceLevel == "" {
-		binding.ResourceLevel = "resource"
-	}
-
-	// Extract parent ID if defined
-	if hclName := def.FieldMappings.Parent; hclName != "" {
-		binding.ParentID = getString(hclName)
-	}
-
-	// Determine parent type based on resource level
-	switch binding.ResourceLevel {
-	case "folder":
-		binding.ParentType = "organization"
-	case "project":
-		if binding.ParentID != "" {
-			binding.ParentType = "folder"
-		}
-	case "resource":
-		binding.ParentType = "project"
-	}
-
-	// Store terraform address (resource_type.resource_name)
-	if len(block.Labels) >= 2 {
-		binding.TerraformAddr = fmt.Sprintf("%s.%s", block.Labels[0], block.Labels[1])
-	}
-
-	// Basic validation: must have role and members
+	// Validation
 	if binding.Role == "" || len(binding.Members) == 0 {
-		return IAMBinding{}, fmt.Errorf("missing role or members")
+		return nil, fmt.Errorf("missing role or members")
 	}
 
-	return binding, nil
+	return []IAMBinding{binding}, nil
 }
