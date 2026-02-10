@@ -109,11 +109,7 @@ func extractBindingFromResource(resource Resource, def ResourceDefinition) ([]IA
 	// Extract Parent ID
 	parentID := ""
 	if def.FieldMappings.Parent != "" {
-		if val, ok := resource.Values[def.FieldMappings.Parent]; ok {
-			if strVal, ok := val.(string); ok {
-				parentID = strVal
-			}
-		}
+		parentID = GetStringFromMap(resource.Values, def.FieldMappings.Parent)
 	}
 
 	resourceLevel := def.ResourceLevel
@@ -122,31 +118,13 @@ func extractBindingFromResource(resource Resource, def ResourceDefinition) ([]IA
 	}
 
 	// Determine parent type based on resource level
-	var parentType string
-	switch resourceLevel {
-	case "folder":
-		parentType = "organization"
-	case "project":
-		if parentID != "" {
-			parentType = "folder"
-		}
-	case "resource":
-		parentType = "project"
-	}
+	parentType := DetermineParentType(resourceLevel, parentID)
 
 	// --- Check for Policy Data ---
 	if def.FieldMappings.PolicyData != "" {
 		if val, ok := resource.Values[def.FieldMappings.PolicyData]; ok {
 			if policyDataJSON, ok := val.(string); ok {
 				// Unmarshal Policy Data
-				type PolicyBinding struct {
-					Role    string   `json:"role"`
-					Members []string `json:"members"`
-				}
-				type Policy struct {
-					Bindings []PolicyBinding `json:"bindings"`
-				}
-
 				var policy Policy
 				if err := json.Unmarshal([]byte(policyDataJSON), &policy); err != nil {
 					return nil, fmt.Errorf("failed to parse policy_data JSON: %w", err)
@@ -184,33 +162,19 @@ func extractBindingFromResource(resource Resource, def ResourceDefinition) ([]IA
 
 	// Extract Role
 	if def.FieldMappings.Role != "" {
-		if val, ok := resource.Values[def.FieldMappings.Role]; ok {
-			if strVal, ok := val.(string); ok {
-				binding.Role = strVal
-			}
-		}
+		binding.Role = GetStringFromMap(resource.Values, def.FieldMappings.Role)
 	}
 
 	// Extract Member (singular)
 	if def.FieldMappings.Member != "" {
-		if val, ok := resource.Values[def.FieldMappings.Member]; ok {
-			if strVal, ok := val.(string); ok {
-				binding.Members = append(binding.Members, strVal)
-			}
+		if val := GetStringFromMap(resource.Values, def.FieldMappings.Member); val != "" {
+			binding.Members = append(binding.Members, val)
 		}
 	}
 
 	// Extract Members (plural)
 	if def.FieldMappings.Members != "" {
-		if val, ok := resource.Values[def.FieldMappings.Members]; ok {
-			if members, ok := val.([]interface{}); ok {
-				for _, member := range members {
-					if strVal, ok := member.(string); ok {
-						binding.Members = append(binding.Members, strVal)
-					}
-				}
-			}
-		}
+		binding.Members = append(binding.Members, GetListFromMap(resource.Values, def.FieldMappings.Members)...)
 	}
 
 	// Validation

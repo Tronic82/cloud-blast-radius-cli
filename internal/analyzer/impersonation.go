@@ -130,20 +130,10 @@ func extractServiceAccountEmail(resourceID string) string {
 
 // AnalyzeTransitiveAccess calculates transitive access for a specific account via impersonation
 func AnalyzeTransitiveAccess(accountEmail string, directAccess map[string]*PrincipalData, graph *ImpersonationGraph) *TransitiveAccess {
-	// Find matching principals for this account email
-	var matchingPrincipals []string
-	for principal := range directAccess {
-		if MatchesPrincipalEmail(principal, accountEmail) {
-			matchingPrincipals = append(matchingPrincipals, principal)
-		}
-	}
-
-	if len(matchingPrincipals) == 0 {
+	principal := findMatchingPrincipal(accountEmail, directAccess)
+	if principal == "" {
 		return nil
 	}
-
-	// Use the first matching principal (typically there should only be one)
-	principal := matchingPrincipals[0]
 
 	result := &TransitiveAccess{
 		Principal:        principal,
@@ -151,80 +141,36 @@ func AnalyzeTransitiveAccess(accountEmail string, directAccess map[string]*Princ
 		TransitiveAccess: make(map[string]*AccessVia),
 	}
 
-	// Traverse impersonation graph using BFS
-	visited := make(map[string]bool)
 	queue := []struct {
 		principal string
 		chain     []string
 	}{
 		{principal: principal, chain: []string{}},
 	}
+	visited := make(map[string]bool)
 
 	for len(queue) > 0 {
 		current := queue[0]
 		queue = queue[1:]
 
-		// Skip if already visited (prevents infinite loops)
 		if visited[current.principal] {
 			continue
 		}
 		visited[current.principal] = true
 
-		// Get impersonation targets for this principal
 		targets, exists := graph.Graph[current.principal]
 		if !exists {
 			continue
 		}
 
 		for _, target := range targets {
-			// Check for circular impersonation
-			isCircular := false
-			for _, p := range current.chain {
-				if p == target {
-					isCircular = true
-					break
-				}
-			}
-			if isCircular {
+			if isCircularReference(current.chain, target) {
 				continue
 			}
 
-			// Build new chain
-			newChain := append([]string{}, current.chain...)
-			newChain = append(newChain, target)
+			newChain := append(append([]string{}, current.chain...), target)
+			mergeTransitiveAccess(result, target, directAccess, newChain)
 
-			// Add target's access to transitive access
-			if targetAccess, ok := directAccess[target]; ok {
-				for resID, resMeta := range targetAccess.ResourceAccess {
-					// Check which roles are new (not in direct access)
-					newRoles := make(map[string]bool)
-					for role := range resMeta.Roles {
-						hasRole := false
-						if result.DirectAccess != nil && result.DirectAccess.ResourceAccess != nil {
-							if directMeta, exists := result.DirectAccess.ResourceAccess[resID]; exists {
-								hasRole = directMeta.Roles[role]
-							}
-						}
-						if !hasRole {
-							newRoles[role] = true
-						}
-					}
-
-					// Only add if there are new roles
-					if len(newRoles) > 0 {
-						// Add to transitive access with only the new roles
-						result.TransitiveAccess[resID] = &AccessVia{
-							Resource: &ResourceMetadata{
-								Type:  resMeta.Type,
-								Roles: newRoles,
-							},
-							ViaChain: newChain,
-						}
-					}
-				}
-			}
-
-			// Add to queue for further traversal
 			queue = append(queue, struct {
 				principal string
 				chain     []string
@@ -233,6 +179,59 @@ func AnalyzeTransitiveAccess(accountEmail string, directAccess map[string]*Princ
 	}
 
 	return result
+}
+
+func findMatchingPrincipal(email string, directAccess map[string]*PrincipalData) string {
+	for principal := range directAccess {
+		if MatchesPrincipalEmail(principal, email) {
+			return principal
+		}
+	}
+	return ""
+}
+
+func isCircularReference(chain []string, target string) bool {
+	for _, p := range chain {
+		if p == target {
+			return true
+		}
+	}
+	return false
+}
+
+func mergeTransitiveAccess(result *TransitiveAccess, target string, directAccess map[string]*PrincipalData, chain []string) {
+	targetAccess, ok := directAccess[target]
+	if !ok {
+		return
+	}
+
+	for resID, resMeta := range targetAccess.ResourceAccess {
+		newRoles := make(map[string]bool)
+		for role := range resMeta.Roles {
+			if !hasDirectRole(result, resID, role) {
+				newRoles[role] = true
+			}
+		}
+
+		if len(newRoles) > 0 {
+			result.TransitiveAccess[resID] = &AccessVia{
+				Resource: &ResourceMetadata{
+					Type:  resMeta.Type,
+					Roles: newRoles,
+				},
+				ViaChain: chain,
+			}
+		}
+	}
+}
+
+func hasDirectRole(result *TransitiveAccess, resID, role string) bool {
+	if result.DirectAccess != nil && result.DirectAccess.ResourceAccess != nil {
+		if directMeta, exists := result.DirectAccess.ResourceAccess[resID]; exists {
+			return directMeta.Roles[role]
+		}
+	}
+	return false
 }
 
 // MatchesPrincipalEmail checks if a principal matches an email (without principal type prefix)

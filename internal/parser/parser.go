@@ -301,30 +301,13 @@ func extractIAMResource(block *hcl.Block, def ResourceDefinition, traverser *Con
 	}
 
 	// Determine parent type
-	switch resourceLevel {
-	case "folder":
-		parentType = "organization"
-	case "project":
-		if parentID != "" {
-			parentType = "folder"
-		}
-	case "resource":
-		parentType = "project"
-	}
+	parentType = DetermineParentType(resourceLevel, parentID)
 
 	// --- Check for Policy Data ---
 	if hclName := def.FieldMappings.PolicyData; hclName != "" {
 		policyDataJSON := getString(hclName)
 		if policyDataJSON != "" {
 			// Unmarshal Policy Data
-			type PolicyBinding struct {
-				Role    string   `json:"role"`
-				Members []string `json:"members"`
-			}
-			type Policy struct {
-				Bindings []PolicyBinding `json:"bindings"`
-			}
-
 			var policy Policy
 			if err := json.Unmarshal([]byte(policyDataJSON), &policy); err != nil {
 				return nil, fmt.Errorf("failed to parse policy_data JSON: %w", err)

@@ -1,8 +1,9 @@
-package main
+package output
 
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"sort"
 	"time"
@@ -10,9 +11,6 @@ import (
 	"github.com/Tronic82/cloud-blast-radius-cli/internal/analyzer"
 	"github.com/Tronic82/cloud-blast-radius-cli/internal/policy"
 )
-
-// OutputFormat is the global flag for output format (text or json)
-var outputFormat string
 
 // ImpactOutput represents the JSON output for the impact command
 type ImpactOutput struct {
@@ -81,9 +79,14 @@ type ViolationOutput struct {
 	Message   string `json:"message"`
 }
 
-// printJSON encodes and prints the given interface as JSON to stdout
-func printJSON(v interface{}) {
-	encoder := json.NewEncoder(os.Stdout)
+// PrintJSON encodes and prints the given interface as JSON to stdout
+func PrintJSON(v interface{}) {
+	PrintJSONTo(os.Stdout, v)
+}
+
+// PrintJSONTo encodes and prints to a specific writer (useful for testing)
+func PrintJSONTo(w io.Writer, v interface{}) {
+	encoder := json.NewEncoder(w)
 	encoder.SetIndent("", "  ")
 	if err := encoder.Encode(v); err != nil {
 		fmt.Fprintf(os.Stderr, "Error generating JSON output: %v\n", err)
